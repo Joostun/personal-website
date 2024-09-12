@@ -27,6 +27,11 @@ body {
 }
 
 @layer utilities {
+  @font-face {
+    font-family: 'CalvinNHobbes';
+    src: url('/fonts/Ch-Regular.ttf') format('truetype');
+    font-style: normal;
+  }
   .text-balance {
     text-wrap: balance;
   }

@@ -1,4 +1,13 @@
+'use client'
+
 import Image from "next/image";
+import { JetBrains_Mono } from "next/font/google";
+import {motion} from "framer-motion";
+
+const jbmono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export default function Home() {
   return (
@@ -108,6 +117,54 @@ export default function Home() {
           </p>
         </a>
       </div>
+      <div>
+        <text className="text-8xl bottom-56">
+          BIG PLACEHOLDER
+        </text>
+      </div>
+      <div>
+        <text className="text-8xl bottom-56">
+          BIG PLACEHOLDER
+        </text>
+      </div>
+      <div>
+        <text className="text-8xl bottom-56">
+          BIG PLACEHOLDER
+        </text>
+      </div>
+      <div>
+        <text className="text-8xl bottom-56">
+          BIG PLACEHOLDER
+        </text>
+      </div>
+      <div>
+        <text className="text-8xl bottom-56">
+          BIG PLACEHOLDER
+        </text>
+      </div>
+      <img className="" id="icon" src="sledding.png" alt="sledpic" />
+      <text className="text-8xl"/>placeholder
+      <motion.div
+        initial = {{x:-800, y:-300}}
+        whileInView={{x:600, y:100}}
+      >
+        <text className = "text-8xl jbmono">bullshit</text>
+        <img className="" id="icon" src="sledding.png" alt="sledpic" />
+
+      </motion.div>
+      <motion.div
+        className="sledding"
+        initial = {{x:-800, y:-300}}
+        whileInView={{x:600,y:100}}
+        transition={{
+          duration: .8,
+          type: "spring",
+          damping: 25,
+          stiffness: 100,
+        }}
+      >
+        <img className="" id="icon" src="sledding.png" alt="sledpic" />
+      </motion.div>
     </main>
   );
 }

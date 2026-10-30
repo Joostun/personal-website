@@ -148,6 +148,12 @@
     text-align: center;
   }
 
+  /* Bigger Projects row */
+  .row.big .icon { width: 196px; }
+  .row.big .icon svg { width: 144px; height: 144px; }
+  .row.big .icon span { font-size: 24px; }
+  .row.big h2 { font-size: 24px; }
+
   /* Popup windows */
   dialog.win {
     width: min(580px, calc(100% - 32px));
@@ -160,6 +166,8 @@
     border-radius: 6px;
     box-shadow: 8px 8px 0 0 var(--ink);
   }
+  dialog.win.wide { width: min(760px, calc(100% - 32px)); padding: 34px 40px 32px; font-size: 21px; }
+  dialog.win.wide p + p { margin-top: 14px; }
   dialog.win[open] { animation: pop .22s cubic-bezier(.2, .9, .3, 1.2); }
   dialog.win:focus { outline: none; }
   dialog.win::backdrop { background: rgba(0, 0, 0, .35); }
@@ -215,21 +223,22 @@
   }
   .stat small { font-size: 21px; color: var(--ink); font-weight: 400; }
 
-  /* Sled */
+  /* Sled: sits centered and bobs over the snow */
   .sled-run {
-    height: 360px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    padding: 32px 16px 48px;
     pointer-events: none;
   }
   .sled-run img {
     width: 173px;
     height: auto;
-    transform: translate(-500px, -300px);
-    transition: transform 1.2s cubic-bezier(.2, .8, .3, 1);
+    animation: bob 2.4s ease-in-out infinite;
   }
-  .sled-run.in img { transform: translate(500px, 100px); }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+  }
 
   @media (max-width: 800px) {
     body { font-size: 18px; }
@@ -257,15 +266,19 @@
     .icon span { font-size: 16px; }
 
     dialog.win { padding: 22px 18px 20px; }
+    dialog.win.wide { padding: 22px 18px 20px; font-size: 18px; }
+    .row.big .icon { width: auto; }
+    .row.big .icon svg { width: 88px; height: 88px; }
+    .row.big .icon span { font-size: 17px; }
+    .row.big h2 { font-size: 20px; }
     .win h3 { font-size: 32px; }
 
-    .sled-run { height: 260px; }
-    .sled-run img { width: 120px; transform: translate(-60vw, -120px); }
-    .sled-run.in img { transform: translate(60vw, 60px); }
+    .sled-run img { width: 120px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .forts img, .sled-run img, .icon svg { transition: none; }
+    .forts img, .icon svg { transition: none; }
+    .sled-run img { animation: none; }
     dialog.win[open] { animation: none; }
   }
 </style>
@@ -336,7 +349,7 @@
     </div>
   </section>
 
-  <section class="row">
+  <section class="row big">
     <h2>Projects</h2>
     <div class="icons">
       <button class="icon" type="button" data-open="riscv">
@@ -375,43 +388,9 @@
     </div>
   </section>
 
-  <section class="row">
-    <h2>Off the clock</h2>
-    <div class="icons">
-      <button class="icon" type="button" data-open="kitchen">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <path d="M66 6 L94 42 M76 4 L98 36" fill="none" stroke="#8a5a2b" stroke-width="5"/>
-          <path d="M16 52 Q28 28 50 30 Q72 28 84 52 Z" fill="#e9b65a"/>
-          <ellipse cx="50" cy="38" rx="15" ry="8" fill="#fff"/>
-          <circle cx="52" cy="37" r="5" fill="var(--sun)"/>
-          <path d="M10 52 H90 Q88 86 50 88 Q12 86 10 52 Z" fill="var(--red)"/>
-        </svg>
-        <span>Kitchen</span>
-      </button>
-      <button class="icon" type="button" data-open="football">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <g transform="rotate(-30 50 50)">
-            <ellipse cx="50" cy="50" rx="42" ry="25" fill="#8b4a2b"/>
-            <path d="M16 38 Q18 50 16 62 M84 38 Q82 50 84 62" fill="none" stroke="#fff" stroke-width="3.5"/>
-            <path d="M34 50 H66 M40 44 V56 M47 44 V56 M54 44 V56 M61 44 V56" fill="none" stroke="#fff" stroke-width="3.5"/>
-          </g>
-        </svg>
-        <span>Fantasy football</span>
-      </button>
-      <button class="icon" type="button" data-open="reading">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <rect x="12" y="68" width="76" height="18" rx="2" fill="var(--red)"/>
-          <rect x="18" y="48" width="66" height="18" rx="2" fill="var(--sky)"/>
-          <rect x="14" y="28" width="68" height="18" rx="2" fill="var(--leaf)" transform="rotate(-4 48 37)"/>
-          <path d="M22 77 H54 M28 57 H60" fill="none" stroke-width="3"/>
-        </svg>
-        <span>Reading</span>
-      </button>
-    </div>
-  </section>
 </main>
 
-<div class="sled-run" data-anim>
+<div class="sled-run">
   <img src="public/sledding.png" alt="">
 </div>
 
@@ -453,59 +432,33 @@
   </ul>
 </dialog>
 
-<dialog class="win" tabindex="-1" id="win-riscv" aria-labelledby="t-riscv">
+<dialog class="win wide" tabindex="-1" id="win-riscv" aria-labelledby="t-riscv">
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag leaf">Architecture</span>
   <h3 id="t-riscv">RISC-V core and a UNIX-like OS</h3>
-  <ul>
-    <li>A 5-stage pipelined RISC-V core.</li>
-    <li>A UNIX-like operating system.</li>
-    <li>TA for computer architecture.</li>
-  </ul>
+  <p>I built a 5-stage pipelined RISC-V core: the classic fetch, decode, execute, memory and writeback pipeline, with several instructions in flight at once.</p>
+  <p>On the software side of the same stack, I built a UNIX-like operating system.</p>
+  <p>I'm also a TA for computer architecture.</p>
 </dialog>
 
-<dialog class="win" tabindex="-1" id="win-sram" aria-labelledby="t-sram">
+<dialog class="win wide" tabindex="-1" id="win-sram" aria-labelledby="t-sram">
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag red">Custom IC</span>
   <h3 id="t-sram">6T SRAM to a pipelined MAC</h3>
-  <ul>
-    <li>Designed a 6T SRAM bitcell in Virtuoso and took it through LVS and extraction.</li>
-    <li>Built it into an array, then into a pipelined multiply-accumulate unit.</li>
-  </ul>
+  <p>This one starts at a single 6T SRAM bitcell, the six-transistor cell that stores one bit. I laid it out in Cadence Virtuoso and took it through LVS and extraction.</p>
+  <p>From there I built the cell up into an array, and then into a pipelined multiply-accumulate (MAC) unit.</p>
 </dialog>
 
-<dialog class="win" tabindex="-1" id="win-fpga" aria-labelledby="t-fpga">
+<dialog class="win wide" tabindex="-1" id="win-fpga" aria-labelledby="t-fpga">
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag">FPGA + Fab</span>
   <h3 id="t-fpga">Accelerators and a wafer</h3>
-  <ul>
-    <li>HLS matrix-multiply accelerators on an Ultra96 (Zynq UltraScale+).</li>
-    <li>Etched a design onto a wafer in ESE 2180.</li>
-  </ul>
+  <p>On an Ultra96 board, which pairs ARM cores with programmable logic on a Zynq UltraScale+ chip, I wrote matrix-multiply accelerators using high-level synthesis (HLS).</p>
+  <p>At the other end of the stack, in ESE 2180 I etched a design onto a wafer.</p>
 </dialog>
 
-<dialog class="win" tabindex="-1" id="win-kitchen" aria-labelledby="t-kitchen">
-  <button class="close" type="button" aria-label="Close">&times;</button>
-  <span class="tag red">Kitchen</span>
-  <h3 id="t-kitchen">Fried rice and Taco Bell</h3>
-  <p>I cook nasi goreng-style fried rice.</p>
-  <p>I also keep a Taco Bell ranking.</p>
-</dialog>
 
-<dialog class="win" tabindex="-1" id="win-football" aria-labelledby="t-football">
-  <button class="close" type="button" aria-label="Close">&times;</button>
-  <span class="tag leaf">Sundays</span>
-  <h3 id="t-football">Fantasy football</h3>
-  <div class="stat">12 <small>teams</small></div>
-  <p>I play in a 12-team fantasy football league.</p>
-</dialog>
 
-<dialog class="win" tabindex="-1" id="win-reading" aria-labelledby="t-reading">
-  <button class="close" type="button" aria-label="Close">&times;</button>
-  <span class="tag sky">Reading</span>
-  <h3 id="t-reading">Political theory</h3>
-  <p>Taking a political theory course: Marx, Tronti, 1848.</p>
-</dialog>
 
 <script>
   // Replays like framer-motion's whileInView: add .in on enter, drop it on exit.

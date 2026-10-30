@@ -530,31 +530,27 @@
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag">Racing</span>
   <h3 id="t-racing">Penn Electric Racing</h3>
-  <p>At Penn, I'm an electrical hardware lead for Penn Electric Racing. Our team designs the custom PCBs that go into the car. Right now we're moving REV12 from rear-wheel to four-wheel drive, which means <strong>20+ boards</strong>.</p>
-  <p>I used to work on the high voltage side. I co-designed the battery management system for our <strong>600 V</strong> tractive system, an STM32 board talking SPI, I2C and CAN, and brought it up from the bench to the harness to HV precharge. I also designed the High Voltage Indicator board, which steps <strong>600 V down to 12 V</strong> with a flyback.</p>
+  <p>At Penn, I'm an electrical hardware lead for Penn Electric Racing, leading <strong>30+ engineers</strong> across <strong>20+ custom PCBs</strong>. Right now we're redesigning REV12 from rear-wheel to four-wheel drive, with more CAN bandwidth, decentralized data acquisition, and bigger low- and high-voltage packs.</p>
+  <p>I used to work on the high voltage side. I co-designed and routed the 4-layer battery management system board for our <strong>600 V</strong> tractive system, an STM32 board talking SPI, I2C and CAN, with <strong>10 mm</strong> of HV/LV separation, more than FSAE rules require. I also designed the High Voltage Indicator board, which steps <strong>600 V down to 12 V</strong> with a flyback, and validated six critical boards on the car.</p>
 </dialog>
 
-<dialog class="win" tabindex="-1" id="win-silicon" aria-labelledby="t-silicon">
+<dialog class="win wide" tabindex="-1" id="win-silicon" aria-labelledby="t-silicon">
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag sky">Silicon</span>
   <h3 id="t-silicon">AWS Annapurna Labs</h3>
-  <p class="role">Intern</p>
-  <ul>
-    <li>Built a SystemVerilog testbench for an HBM4 controller that generates and verifies <strong>60</strong> JEDEC IDD7R-style power-stress patterns in <strong>about four seconds</strong>. It used to take hours. The team adopted it.</li>
-    <li>Validated power delivery for Trainium 3.</li>
-    <li>Debugged HBM4 PHY training.</li>
-  </ul>
+  <p class="role">Hardware Development Engineering Intern, Austin, summer 2026</p>
+  <p>I validated power-delivery margins that let a new Trainium 3 packaging approach cut HBM-rail power by <strong>10%</strong>, with zero failures over 36 hours, and built a telemetry pipeline that cut shmoo runtime from <strong>4 hours to 45 minutes</strong>.</p>
+  <p>I root-caused an HBM4 PHY training failure and validated the link at <strong>17% above rated speed</strong> with clean DRAM BIST, saving 2&ndash;4 weeks of vendor debug.</p>
+  <p>I also built an RTL testbench for an HBM4 controller that generates <strong>60</strong> JEDEC IDD7R-style power-stress patterns in <strong>4 seconds</strong>, now used for ongoing validation, and characterized the substrate power delivery network for the UCIe and HBM rails with wafer probe before die-attach.</p>
 </dialog>
 
-<dialog class="win" tabindex="-1" id="win-research" aria-labelledby="t-research">
+<dialog class="win wide" tabindex="-1" id="win-research" aria-labelledby="t-research">
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag red">Research</span>
   <h3 id="t-research">ISCA 2026</h3>
-  <p class="role">Dr. Li's Computational Intelligence Lab</p>
-  <ul>
-    <li>Author on <a href="https://www.computer.org/csdl/proceedings-article/isca/2026/506500b766/2iG11g5FM64" target="_blank" rel="noopener">a paper published at ISCA 2026</a>, the International Symposium on Computer Architecture.</li>
-    <li>The work looks at datacenter optimization and power consumption.</li>
-  </ul>
+  <p class="role">Research intern, Dr. Li's Computational Intelligence Lab at Penn, summer 2025</p>
+  <p>I co-authored <a href="https://www.computer.org/csdl/proceedings-article/isca/2026/506500b766/2iG11g5FM64" target="_blank" rel="noopener">a paper published at ISCA 2026</a> on <strong>R2D2</strong>, a robot-reconfigurable datacenter network with direct optical links between disaggregated nodes.</p>
+  <p>It reconfigures in <strong>under 15 seconds</strong> and uses <strong>70% less power</strong> than switching.</p>
   <p class="cta"><a href="https://www.computer.org/csdl/proceedings-article/isca/2026/506500b766/2iG11g5FM64" target="_blank" rel="noopener">Read the paper &rarr;</a></p>
 </dialog>
 
@@ -579,8 +575,9 @@
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag red">Custom IC</span>
   <h3 id="t-sram">Pipelined MAC with two 4&times;16 SRAMs</h3>
-  <p>In Cadence Virtuoso, I started with a 6T SRAM bitcell and took it through LVS and extraction. I expanded it into an SRAM module with precharge, a sense amplifier and a decoder. Then I built a sequencer and a 4&times;4 multiplier, and put it all together into a pipelined multiply-accumulate unit fed by two 4&times;16 SRAMs.</p>
-  <p>The finished MAC reached a minimum clock period of <strong>1.1 ns</strong>, about 909&nbsp;MHz, and I checked it for hold violations.</p>
+  <p>In Cadence Virtuoso, I started with a 6T SRAM bitcell, laid out DRC/LVS-clean and run through Quantus parasitic extraction. I expanded it into an SRAM module with precharge, a sense amplifier and a decoder.</p>
+  <p>Then I built a sequencer and a 4&times;4 array multiplier, and put it all together with custom flip-flops and a 12-bit accumulator into a pipelined multiply-accumulate unit fed by two 4&times;16 SRAMs, verified on end-to-end dot products.</p>
+  <p>I sized the critical path with logical effort and characterized setup and hold, clock-to-q, and energy per dot product. The finished MAC reached a minimum clock period of <strong>1.1 ns</strong>, about 909&nbsp;MHz, and I checked it for hold violations.</p>
 </dialog>
 
 <dialog class="win wide" tabindex="-1" id="win-classes" aria-labelledby="t-classes">

@@ -724,7 +724,7 @@
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag leaf">Architecture</span>
   <h3 id="t-riscv">6-stage pipelined RISC-V CPU</h3>
-  <p>A RISC-V processor in SystemVerilog, built up one step at a time: a divider and a carry-lookahead adder, then a single-cycle core, a multi-cycle one, and finally a pipelined RV32IM core running on a ULX3S FPGA board.</p>
+  <p>A pipelined RV32IM processor in SystemVerilog, running on a ULX3S FPGA board.</p>
   <p>The pipeline started at five stages, with MX, WX and WD bypassing, load-use stalls in Decode, branches resolved in Execute, and an 8-cycle pipelined divider that rejoins the pipeline at Memory.</p>
   <p>Then I moved instruction and data memory onto AXI4-Lite, which added a sixth stage between Fetch and Decode to cover the memory's one-cycle latency. Getting fetch right meant handling backpressure: dropping <code>RREADY</code> and <code>ARVALID</code> during stalls so in-flight fetches are never lost or duplicated.</p>
   <p>I'm also a TA for graduate computer architecture.</p>

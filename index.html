@@ -88,7 +88,7 @@
     font-size: clamp(52px, 7vw, 96px);
     line-height: 1;
   }
-  .greeting p { margin: 10px 0 0; font-size: 20px; }
+  .greeting p { margin: 10px 0 0; font: 400 20px/1.55 var(--body); }
   .links {
     justify-self: end;
     list-style: none;
@@ -181,6 +181,7 @@
 
   .icon .avatar-icon { width: 96px; height: 96px; object-fit: contain; transition: transform .18s ease; }
   .row.big .icon .avatar-icon { width: 144px; height: 144px; }
+  .row.big .icon .avatar-icon.wide { width: 180px; }
   .icon:hover .avatar-icon, .icon:focus-visible .avatar-icon { transform: translateY(-4px) rotate(-3deg); }
 
   /* Resume window: work history on the left, PDF preview on the right */
@@ -426,6 +427,7 @@
     .flip { max-width: 220px; }
     .row.big .icon { width: auto; }
     .row.big .icon svg, .row.big .icon .avatar-icon { width: 88px; height: 88px; }
+    .row.big .icon .avatar-icon.wide { width: 100%; max-width: 107px; }
     .row.big .icon span { font-size: 17px; }
     .row.big h2 { font-size: 20px; }
     .course { grid-template-columns: 5.2em 1fr; gap: 4px 8px; }
@@ -477,7 +479,7 @@
     <h2>About</h2>
     <div class="icons">
       <button class="icon" type="button" data-open="about">
-        <img class="avatar-icon" src="public/pfp.png" alt="">
+        <img class="avatar-icon wide" src="public/about-icon.png" alt="" width="520" height="429">
         <span>About me</span>
       </button>
       <button class="icon" type="button" data-open="resume">

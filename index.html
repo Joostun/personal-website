@@ -519,7 +519,6 @@
   <span class="tag sky">Systems</span>
   <h3 id="t-os">PennOS: a UNIX-like operating system</h3>
   <p>PennOS is a UNIX-like operating system written in C. It runs as a guest OS inside a single Linux process, with a priority scheduler driven by a timer interrupt, a FAT-style file system, a system call layer and a shell.</p>
-  <p>My parts were the scheduler, the shell, and process management in the kernel.</p>
   <p>On the scheduler, I worked on the main run loop and the blocking paths: putting processes to sleep, having parents wait on their children, and finding zombie and stopped children to reap or resume. I also got priority scheduling holding up under busy load.</p>
   <p>On the shell, I worked on the main loop and the command executor, foreground and background job control, including handing the terminal to the foreground job, and the Ctrl-C and Ctrl-Z signal handlers. I added the <code>ps</code> and <code>cat</code> built-ins, plus <code>zombify</code> and <code>orphanify</code> test programs that check the OS cleans up dead and orphaned processes.</p>
   <p>In the kernel, I set up the init process, wrote PID allocation that reuses the lowest free PID, and drafted the first kernel-level process functions.</p>

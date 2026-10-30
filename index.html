@@ -516,9 +516,9 @@
 
 <dialog class="win wide" tabindex="-1" id="win-os" aria-labelledby="t-os">
   <button class="close" type="button" aria-label="Close">&times;</button>
-  <span class="tag sky">CIS 4480</span>
+  <span class="tag sky">Systems</span>
   <h3 id="t-os">PennOS: a UNIX-like operating system</h3>
-  <p>PennOS is a UNIX-like operating system my team of four wrote in C for CIS 4480, Operating Systems Design and Implementation. It runs as a guest OS inside a single Linux process, with a priority scheduler driven by a timer interrupt, a FAT-style file system, a system call layer and a shell.</p>
+  <p>PennOS is a UNIX-like operating system my team of four wrote in C. It runs as a guest OS inside a single Linux process, with a priority scheduler driven by a timer interrupt, a FAT-style file system, a system call layer and a shell.</p>
   <p>My parts were the scheduler, the shell, and process management in the kernel.</p>
   <p>On the scheduler, I worked on the main run loop and the blocking paths: putting processes to sleep, having parents wait on their children, and finding zombie and stopped children to reap or resume. I also got priority scheduling holding up under busy load.</p>
   <p>On the shell, I worked on the main loop and the command executor, foreground and background job control, including handing the terminal to the foreground job, and the Ctrl-C and Ctrl-Z signal handlers. I added the <code>ps</code> and <code>cat</code> built-ins, plus <code>zombify</code> and <code>orphanify</code> test programs that check the OS cleans up dead and orphaned processes.</p>
@@ -527,10 +527,9 @@
 
 <dialog class="win wide" tabindex="-1" id="win-sram" aria-labelledby="t-sram">
   <button class="close" type="button" aria-label="Close">&times;</button>
-  <span class="tag red">ESE 5700</span>
+  <span class="tag red">Custom IC</span>
   <h3 id="t-sram">Pipelined MAC with two 4&times;16 SRAMs</h3>
-  <p>Built in Cadence Virtuoso for ESE 5700, Digital Integrated Circuits and VLSI Fundamentals.</p>
-  <p>I started with a 6T SRAM bitcell and took it through LVS and extraction. I expanded it into an SRAM module with precharge, a sense amplifier and a decoder. Then I built a sequencer and a 4&times;4 multiplier, and put it all together into a pipelined multiply-accumulate unit fed by two 4&times;16 SRAMs.</p>
+  <p>In Cadence Virtuoso, I started with a 6T SRAM bitcell and took it through LVS and extraction. I expanded it into an SRAM module with precharge, a sense amplifier and a decoder. Then I built a sequencer and a 4&times;4 multiplier, and put it all together into a pipelined multiply-accumulate unit fed by two 4&times;16 SRAMs.</p>
   <p>The finished MAC reached a minimum clock period of <strong>1.1 ns</strong>, about 909&nbsp;MHz, and I checked it for hold violations.</p>
 </dialog>
 

@@ -549,9 +549,11 @@
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag">About</span>
   <h3 id="t-about">About me</h3>
-  <p>I'm Justin, an electrical engineering student in Penn's accelerated BS/MS program, graduating in May 2028.</p>
-  <p>My work runs up and down the hardware stack: transistor-level circuits in Cadence Virtuoso, PCBs for a 600 V race car, and silicon validation on the bench. This past summer I was a hardware development engineering intern at AWS Annapurna Labs in Austin, working on Trainium 3 and HBM4.</p>
-  <p>During the school year I'm an electrical hardware lead for Penn Electric Racing and a TA for graduate computer architecture.</p>
+  <p>I'm Justin, an electrical engineering student in Penn's accelerated BS/MS program, graduating in May 2028. I like making real hardware work: boards, power, analog and silicon. I'm happiest when something misbehaves on the bench and I get to find out why.</p>
+  <p>I grew up doing competition robotics and science competitions, and came to Penn planning to do robotics. In my first ESE class I built a robot to play a silly iPhone game, and figured I was headed for robotics research.</p>
+  <p>Then I joined Penn Electric Racing and started working on high-voltage electronics. I fell for the fundamentals, started looking at everything from first principles, and my interests shifted to all things circuits. Since then I've kept moving down the stack, toward silicon.</p>
+  <p>Penn also changed how I work with people. Competitions taught me to treat peers as rivals; here I learned to reach out, share what I know, and learn over lunch with PhD students and teammates. I try to pay that forward by mentoring underclassmen.</p>
+  <p>Long term, I'm interested in novel compute architectures, and in making chips and datacenters more efficient and more sustainable.</p>
 </dialog>
 
 <dialog class="win resume" tabindex="-1" id="win-resume" aria-labelledby="t-resume">
@@ -606,7 +608,8 @@
   <span class="tag">Racing</span>
   <h3 id="t-racing">Penn Electric Racing</h3>
   <p>At Penn, I'm an electrical hardware lead for Penn Electric Racing, leading <strong>30+ engineers</strong> across <strong>20+ custom PCBs</strong>. Right now we're redesigning REV12 from rear-wheel to four-wheel drive, with more CAN bandwidth, decentralized data acquisition, and bigger low- and high-voltage packs.</p>
-  <p>I used to work on the high voltage side. I co-designed and routed the 4-layer battery management system board for our <strong>600 V</strong> tractive system, an STM32 board talking SPI, I2C and CAN, with <strong>10 mm</strong> of HV/LV separation, more than FSAE rules require. I also designed the High Voltage Indicator board, which steps <strong>600 V down to 12 V</strong> with a flyback, and validated six critical boards on the car.</p>
+  <p>I used to work on the high voltage side. I co-designed and routed the 4-layer battery management system board for our <strong>600 V</strong> tractive system, an STM32 board talking SPI, I2C and CAN, with <strong>10 mm</strong> of HV/LV separation, more than FSAE rules require. I also designed the High Voltage Indicator board, which keeps the safety light on whenever the pack is energized: a flyback steps <strong>600 V down to 12 V</strong>, and I picked the converter IC, added a BJT regulator stage for derating, and routed it for creepage and clearance.</p>
+  <p>I've validated six critical boards with scopes, thermal cameras and electronic loads. These days I also scope rookie projects for new members, like moving a debug board from micro-USB to USB-C and a clamp-on ground-loop tracer for the LV harness.</p>
 </dialog>
 
 <dialog class="win wide" tabindex="-1" id="win-silicon" aria-labelledby="t-silicon">
@@ -616,7 +619,7 @@
   <p class="role">Hardware Development Engineering Intern, Austin, summer 2026</p>
   <p>I validated power-delivery margins that let a new Trainium 3 packaging approach cut HBM-rail power by <strong>10%</strong>, with zero failures over 36 hours, and built a telemetry pipeline that cut shmoo runtime from <strong>4 hours to 45 minutes</strong>.</p>
   <p>I root-caused an HBM4 PHY training failure and validated the link at <strong>17% above rated speed</strong> with clean DRAM BIST, saving 2&ndash;4 weeks of vendor debug.</p>
-  <p>I also built an RTL testbench for an HBM4 controller that generates <strong>60</strong> JEDEC IDD7R-style power-stress patterns in <strong>4 seconds</strong>, now used for ongoing validation, and characterized the substrate power delivery network for the UCIe and HBM rails with wafer probe before die-attach.</p>
+  <p>I also built an RTL testbench for an HBM4 controller that generates <strong>60</strong> JEDEC IDD7R-style power-stress patterns in <strong>4 seconds</strong>, down from hours by hand; the team adopted it for ongoing validation. And I characterized the substrate power delivery network for the UCIe and HBM rails with wafer probe before die-attach, matching the PDN model.</p>
 </dialog>
 
 <dialog class="win wide" tabindex="-1" id="win-research" aria-labelledby="t-research">
@@ -624,8 +627,9 @@
   <span class="tag red">Research</span>
   <h3 id="t-research">ISCA 2026</h3>
   <p class="role">Research intern, Dr. Li's Computational Intelligence Lab at Penn, summer 2025</p>
-  <p>I co-authored <a href="https://www.computer.org/csdl/proceedings-article/isca/2026/506500b766/2iG11g5FM64" target="_blank" rel="noopener">a paper published at ISCA 2026</a> on <strong>R2D2</strong>, a robot-reconfigurable datacenter network with direct optical links between disaggregated nodes.</p>
+  <p>I co-authored <a href="https://www.computer.org/csdl/proceedings-article/isca/2026/506500b766/2iG11g5FM64" target="_blank" rel="noopener">R2D2: Robotized Reconfigurable Network for Disaggregated Datacenters</a>, published at ISCA 2026. R2D2 uses robots to physically reconnect direct optical links between disaggregated nodes.</p>
   <p>It reconfigures in <strong>under 15 seconds</strong> and uses <strong>70% less power</strong> than switching.</p>
+  <p>It was my first research experience, and the lab's PhD students shaped how I think about hard technical questions.</p>
   <p class="cta"><a href="https://www.computer.org/csdl/proceedings-article/isca/2026/506500b766/2iG11g5FM64" target="_blank" rel="noopener">Read the paper &rarr;</a></p>
 </dialog>
 
@@ -651,7 +655,7 @@
   <span class="tag red">Custom IC</span>
   <h3 id="t-sram">Pipelined MAC with two 16&times;4 SRAMs</h3>
   <p>In Cadence Virtuoso, I started with a 6T SRAM bitcell, laid out DRC/LVS-clean and run through Quantus parasitic extraction. I expanded it into an SRAM module with precharge, a sense amplifier and a decoder.</p>
-  <p>Then I built a sequencer and a 4&times;4 array multiplier, and put it all together with custom flip-flops and a 12-bit accumulator into a pipelined multiply-accumulate unit fed by two 16&times;4 SRAMs, verified on end-to-end dot products.</p>
+  <p>Then I built a sequencer and a 4&times;4 array multiplier, and put it all together with custom flip-flops and a 12-bit accumulator into a pipelined multiply-accumulate unit fed by two 16&times;4 SRAMs, verified on end-to-end dot products. DONE rises 18 cycles after START.</p>
   <p>I sized the critical path with logical effort and characterized setup and hold, clock-to-q, and energy per dot product. The finished MAC reached a minimum clock period of <strong>1.1 ns</strong>, about 909&nbsp;MHz, and I checked it for hold violations.</p>
 </dialog>
 
@@ -682,7 +686,8 @@
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag">FPGA</span>
   <h3 id="t-fpga">Matrix-multiply accelerators</h3>
-  <p>On an Ultra96 board, which pairs ARM cores with programmable logic on a Zynq UltraScale+ chip, I wrote matrix-multiply accelerators using high-level synthesis (HLS).</p>
+  <p>On an Ultra96 board, which pairs ARM cores with programmable logic on a Zynq UltraScale+ chip, I wrote matrix-multiply kernels in Vitis HLS, with host code that overlaps data transfers and compute.</p>
+  <p>I also built a SHA, deduplication and compression pipeline on the same platform.</p>
 </dialog>
 
 

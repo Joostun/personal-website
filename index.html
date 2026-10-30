@@ -314,6 +314,12 @@
   .win p + p, .win p + ul { margin-top: 10px; }
   .win a { font-weight: 700; text-decoration-thickness: 2px; text-underline-offset: 3px; }
   .win .cta { margin-top: 16px; }
+  .win figure.boards { margin: 18px 0; }
+  .win figure.boards img {
+    display: block; width: 100%; height: auto;
+    border: 3px solid var(--ink); border-radius: 4px; box-shadow: 4px 4px 0 0 var(--ink);
+  }
+  .win figure.boards figcaption { margin-top: 10px; font-size: 15px; color: #555; font-style: italic; }
   .win video.clip {
     display: block; width: 100%; height: auto; margin: 16px 0;
     border: 3px solid var(--ink); border-radius: 4px; box-shadow: 4px 4px 0 0 var(--ink); background: #000;
@@ -700,6 +706,10 @@
   <span class="tag">Racing</span>
   <h3 id="t-racing">Penn Electric Racing</h3>
   <p>At Penn, I'm an electrical hardware lead for Penn Electric Racing, leading <strong>30+ engineers</strong> across <strong>20+ custom PCBs</strong>. Right now we're redesigning REV12 from rear-wheel to four-wheel drive, with more CAN bandwidth, decentralized data acquisition, and bigger low- and high-voltage packs.</p>
+  <figure class="boards">
+    <img src="public/photos/rev12-boards.jpg" alt="Four green REV12 circuit boards on a white table: PCM, PDU, dash and BMS master" width="1800" height="895" loading="lazy">
+    <figcaption>REV12 boards, clockwise from top left: PCM, PDU, BMS master and dash.</figcaption>
+  </figure>
   <p>I previously designed and routed our Powertrain Control Module and BMS boards, both embedded 4-layer PCBs, working with SPI, I2C and CAN, high-voltage routing, and DC-DC conversion. The PCM controls the motors, gathers IMU data, and runs our control algorithms, and the BMS is for our <strong>600 V</strong> tractive system.</p>
   <p>I'm very involved in integration and validation, which means a lot of quality time with oscilloscopes, electronic loads and thermal cameras. I've validated six critical boards on the car.</p>
 </dialog>

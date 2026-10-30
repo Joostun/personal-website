@@ -26,6 +26,7 @@
     --paper: #fff;
     --bg-top: rgb(214, 219, 220);
     --bg-bottom: #fff;
+    --header: #b4bbbe;
     --heading: "CalvinNHobbes", "Times New Roman", Times, serif;
     --body: "Times New Roman", Times, serif;
     color-scheme: light;
@@ -52,7 +53,9 @@
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 24px;
-    padding: 28px 32px 0;
+    padding: 24px 32px 28px;
+    background: var(--header);
+    border-bottom: 4px solid var(--ink);
   }
   .avatar img { width: 112px; height: auto; display: block; }
   .greeting { text-align: center; }
@@ -246,7 +249,7 @@
       grid-template-columns: 1fr;
       justify-items: center;
       gap: 14px;
-      padding: 24px 16px 0;
+      padding: 24px 16px 20px;
     }
     .avatar img { width: 84px; }
     .links { justify-self: center; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; }

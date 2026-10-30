@@ -241,6 +241,30 @@
   .win p + p, .win p + ul { margin-top: 10px; }
   .win a { font-weight: 700; text-decoration-thickness: 2px; text-underline-offset: 3px; }
   .win .cta { margin-top: 16px; }
+  .courses h4 {
+    margin: 18px 0 6px;
+    font-family: var(--heading);
+    font-weight: 400;
+    font-size: 22px;
+  }
+  .course {
+    display: grid;
+    grid-template-columns: 6.5em 1fr auto;
+    gap: 12px;
+    align-items: baseline;
+    padding: 6px 0;
+    border-bottom: 2px dashed #c9c9c9;
+  }
+  .course .num { font-weight: 700; }
+  .ctag {
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0 8px;
+    border: 2px solid var(--ink);
+    border-radius: 3px;
+    background: var(--sun);
+  }
+  .ctag.grad { background: var(--leaf); }
   .stat {
     font-weight: 700;
     color: var(--stat);
@@ -298,6 +322,7 @@
     .row.big .icon svg { width: 88px; height: 88px; }
     .row.big .icon span { font-size: 17px; }
     .row.big h2 { font-size: 20px; }
+    .course { grid-template-columns: 5.5em 1fr auto; gap: 8px; }
     .win h3 { font-size: 32px; }
 
     .sled-run img { width: 120px; }
@@ -412,6 +437,15 @@
         </svg>
         <span>FPGA + Wafer</span>
       </button>
+      <button class="icon" type="button" data-open="classes">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M26 46 V66 Q50 80 74 66 V46" fill="#2a2a2a"/>
+          <path d="M50 18 L94 36 L50 54 L6 36 Z" fill="#2a2a2a"/>
+          <path d="M50 36 L82 44 V66" fill="none" stroke="var(--sun)" stroke-width="4"/>
+          <circle cx="82" cy="70" r="5" fill="var(--sun)"/>
+        </svg>
+        <span>Coursework</span>
+      </button>
     </div>
   </section>
 
@@ -475,6 +509,20 @@
   <h3 id="t-sram">6T SRAM to a pipelined MAC</h3>
   <p>This one starts at a single 6T SRAM bitcell, the six-transistor cell that stores one bit. I laid it out in Cadence Virtuoso and took it through LVS and extraction.</p>
   <p>From there I built the cell up into an array, and then into a pipelined multiply-accumulate (MAC) unit.</p>
+</dialog>
+
+<dialog class="win wide" tabindex="-1" id="win-classes" aria-labelledby="t-classes">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <span class="tag sky">Penn</span>
+  <h3 id="t-classes">Coursework</h3>
+  <p>The classes behind the projects, grouped by where they sit in the stack.</p>
+  <div class="courses">
+    <h4>Computer architecture</h4>
+    <div class="course"><span class="num">&nbsp;</span><span class="name">Computer architecture</span><span class="ctag">TA</span></div>
+
+    <h4>Devices and fabrication</h4>
+    <div class="course"><span class="num">ESE 2180</span><span class="name">Etched a design onto a wafer</span></div>
+  </div>
 </dialog>
 
 <dialog class="win wide" tabindex="-1" id="win-fpga" aria-labelledby="t-fpga">

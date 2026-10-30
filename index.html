@@ -122,8 +122,41 @@
     transform: rotate(0.4deg);
   }
   .panel:nth-child(even) { transform: rotate(-0.4deg); }
-  a.panel { display: block; text-decoration: none; }
-  a.panel:hover, a.panel:focus-visible { box-shadow: 7px 7px 0 0 var(--ink); }
+  /* Expandable intro cards */
+  .grid.expandable { align-items: start; }
+  details.panel summary {
+    list-style: none;
+    cursor: pointer;
+  }
+  details.panel summary::-webkit-details-marker { display: none; }
+  details.panel summary:focus-visible { outline: 3px solid var(--sky); outline-offset: 6px; }
+  details.panel:hover { box-shadow: 7px 7px 0 0 var(--ink); }
+  .more-toggle {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    border-bottom: 2px solid var(--ink);
+  }
+  .more-toggle::after { content: "Read more +"; }
+  details[open] .more-toggle::after { content: "Show less \2212"; }
+  .more {
+    border-top: 2px dashed var(--ink);
+    margin-top: 14px;
+    padding-top: 14px;
+  }
+  .more ul { margin: 0; padding-left: 20px; }
+  .more li + li { margin-top: 8px; }
+  .more .jump { display: inline-block; margin-top: 12px; font-size: 16px; font-weight: 700; }
+  @supports (interpolate-size: allow-keywords) {
+    :root { interpolate-size: allow-keywords; }
+    details.panel::details-content {
+      height: 0;
+      overflow: clip;
+      transition: height .35s ease, content-visibility .35s allow-discrete;
+    }
+    details.panel[open]::details-content { height: auto; }
+  }
 
   .tag {
     position: absolute;
@@ -209,6 +242,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .forts img, .sled-run img { transition: none; }
+    details.panel::details-content { transition: none; }
   }
 </style>
 </head>
@@ -240,22 +274,55 @@
 
 <main>
   <section id="intro" aria-label="Overview">
-    <div class="grid">
-      <a class="panel" href="#racing">
-        <span class="tag">Racing</span>
-        <h3>Electrical Hardware Lead</h3>
-        <p>Penn Electric Racing. Battery management, high-voltage boards, and the move to four-wheel drive.</p>
-      </a>
-      <a class="panel" href="#silicon">
-        <span class="tag sky">Silicon</span>
-        <h3>AWS Annapurna Labs intern</h3>
-        <p>HBM4 controller verification and Trainium 3 power-delivery validation.</p>
-      </a>
-      <a class="panel" href="#silicon">
-        <span class="tag red">Research</span>
-        <h3>ISCA 2026 author</h3>
-        <p>A paper on datacenter optimization and power consumption, from Dr. Li's Computational Intelligence Lab.</p>
-      </a>
+    <div class="grid expandable">
+      <details class="panel">
+        <summary>
+          <span class="tag">Racing</span>
+          <h3>Electrical Hardware Lead</h3>
+          <p>Penn Electric Racing. Battery management, high-voltage boards, and the move to four-wheel drive.</p>
+          <span class="more-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="more">
+          <ul>
+            <li>Co-designed the battery management system for the 600 V tractive system: an STM32 board on SPI, I2C and CAN, validated from the bench, to the harness, to HV precharge.</li>
+            <li>Designed the High Voltage Indicator PCB: a flyback from 600 V to 12 V, a BJT regulator stage for derating, and routing for creepage and clearance.</li>
+            <li>Leading REV12's move from rear-wheel to four-wheel drive, across 20+ boards.</li>
+          </ul>
+          <a class="jump" href="#racing">Full section &darr;</a>
+        </div>
+      </details>
+      <details class="panel">
+        <summary>
+          <span class="tag sky">Silicon</span>
+          <h3>AWS Annapurna Labs intern</h3>
+          <p>HBM4 controller verification and Trainium 3 power-delivery validation.</p>
+          <span class="more-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="more">
+          <ul>
+            <li>Built a SystemVerilog testbench for an HBM4 controller that generates and verifies 60 JEDEC IDD7R-style power-stress patterns in about four seconds, down from hours. The team adopted it.</li>
+            <li>Validated power delivery for Trainium 3.</li>
+            <li>Debugged HBM4 PHY training.</li>
+          </ul>
+          <a class="jump" href="#silicon">Full section &darr;</a>
+        </div>
+      </details>
+      <details class="panel">
+        <summary>
+          <span class="tag red">Research</span>
+          <h3>ISCA 2026 author</h3>
+          <p>A paper on datacenter optimization and power consumption, from Dr. Li's Computational Intelligence Lab.</p>
+          <span class="more-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="more">
+          <ul>
+            <li>Author on an ISCA 2026 paper (the International Symposium on Computer Architecture).</li>
+            <li>The work looks at datacenter optimization and power consumption.</li>
+            <li>Done in Dr. Li's Computational Intelligence Lab.</li>
+          </ul>
+          <a class="jump" href="#silicon">Full section &darr;</a>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -286,7 +353,7 @@
 
   <section id="silicon">
     <h2>Silicon</h2>
-    <p class="lede">AWS Annapurna Labs, and research at Penn</p>
+    <p class="lede">AWS Annapurna Labs, and research</p>
     <div class="grid">
       <article class="panel">
         <span class="tag sky">Verification</span>

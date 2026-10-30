@@ -50,7 +50,6 @@
     --bg-top: rgb(214, 219, 220);
     --bg-bottom: #fff;
     --header: #c4cacd;
-    --bank: 140px; /* height of the snowbank popups rise out of */
     --heading: "CalvinNHobbes", "Nunito", "Helvetica Neue", Arial, sans-serif;
     --body: "Nunito", "Helvetica Neue", Arial, sans-serif;
     color-scheme: light;
@@ -180,6 +179,10 @@
   .row.big .icon span { font-size: 24px; }
   .row.big h2 { font-size: 24px; }
 
+  .icon .avatar-icon { width: 96px; height: 96px; object-fit: contain; transition: transform .18s ease; }
+  .row.big .icon .avatar-icon { width: 144px; height: 144px; }
+  .icon:hover .avatar-icon, .icon:focus-visible .avatar-icon { transform: translateY(-4px) rotate(-3deg); }
+
   /* Popup windows */
   dialog.win {
     width: min(580px, calc(100% - 32px));
@@ -196,20 +199,6 @@
   dialog.win.wide p + p { margin-top: 14px; }
   dialog.win:focus { outline: none; }
   dialog.win::backdrop { background: rgba(0, 0, 0, .35); }
-  /* Snowbank drawn in front of popups so they can rise out of it.
-     It's a popover so it can sit above the open dialog. */
-  #snowbank {
-    position: fixed;
-    inset: auto 0 0 0;
-    width: 100%;
-    height: var(--bank);
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%201200%20140%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20d%3D%22M-10%2062%20Q90%2022%20200%2052%20T420%2046%20T610%2058%20T820%2040%20T1010%2056%20T1210%2044%20V150%20H-10%20Z%22%20fill%3D%22%23fff%22%20stroke%3D%22%23000%22%20stroke-width%3D%224%22%20vector-effect%3D%22non-scaling-stroke%22/%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%20vector-effect%3D%22non-scaling-stroke%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M150%2092%20q12%20-6%2024%200%22/%3E%3Cpath%20d%3D%22M380%20100%20q10%20-5%2020%200%22/%3E%3Cpath%20d%3D%22M640%2094%20q12%20-6%2024%200%22/%3E%3Cpath%20d%3D%22M900%20102%20q10%20-5%2020%200%22/%3E%3Cpath%20d%3D%22M1080%2090%20q12%20-6%2024%200%22/%3E%3C/g%3E%3C/svg%3E") bottom / 100% 100% no-repeat;
-    pointer-events: none;
-    overflow: visible;
-  }
   .close {
     position: absolute;
     top: 10px;
@@ -251,6 +240,20 @@
   .win p + p, .win p + ul { margin-top: 10px; }
   .win a { font-weight: 700; text-decoration-thickness: 2px; text-underline-offset: 3px; }
   .win .cta { margin-top: 16px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 18px; }
+  .win a.btn {
+    display: inline-block;
+    padding: 8px 18px;
+    border: 3px solid var(--ink);
+    border-radius: 5px;
+    box-shadow: 4px 4px 0 0 var(--ink);
+    background: var(--sun);
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .win a.btn.alt { background: var(--paper); }
+  .win a.btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 0 var(--ink); }
+  .win a.btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 0 var(--ink); }
   .win code { font: 600 .9em/1 ui-monospace, Menlo, Consolas, monospace; background: #eef0f1; padding: 1px 5px; border-radius: 3px; }
   .courses h4 {
     margin: 18px 0 6px;
@@ -278,7 +281,7 @@
   .ctag.grad { background: var(--leaf); }
   .ctags { display: flex; gap: 6px; }
 
-  /* Sled: sits centered and bobs over the snow */
+  /* Sled: sits centered and gently bobs */
   .sled-run {
     display: flex;
     justify-content: center;
@@ -323,10 +326,9 @@
     dialog.win { padding: 22px 18px 20px; }
     dialog.win.wide { padding: 22px 18px 20px; font-size: 18px; }
     .row.big .icon { width: auto; }
-    .row.big .icon svg { width: 88px; height: 88px; }
+    .row.big .icon svg, .row.big .icon .avatar-icon { width: 88px; height: 88px; }
     .row.big .icon span { font-size: 17px; }
     .row.big h2 { font-size: 20px; }
-    :root { --bank: 100px; }
     .course { grid-template-columns: 5.2em 1fr; gap: 4px 8px; }
     .course .ctags { grid-column: 2; }
     .course .ctags:empty { display: none; }
@@ -371,6 +373,26 @@
 </div>
 
 <main class="launcher">
+  <section class="row big">
+    <h2>About</h2>
+    <div class="icons">
+      <button class="icon" type="button" data-open="about">
+        <img class="avatar-icon" src="public/pfp.png" alt="">
+        <span>About me</span>
+      </button>
+      <button class="icon" type="button" data-open="resume">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M20 8 H64 L82 26 V92 H20 Z" fill="#fff"/>
+          <path d="M64 8 V26 H82" fill="#e4e4e4"/>
+          <circle cx="38" cy="32" r="8" fill="var(--sky)"/>
+          <path d="M26 52 Q38 38 50 52 Z" fill="var(--sky)"/>
+          <path d="M56 30 H72 M56 42 H72 M30 64 H72 M30 74 H72 M30 84 H58" fill="none" stroke-width="3"/>
+        </svg>
+        <span>Resume</span>
+      </button>
+    </div>
+  </section>
+
   <section class="row big">
     <h2>Work &amp; School</h2>
     <div class="icons">
@@ -483,9 +505,27 @@
   <img src="public/sledding.png" alt="">
 </div>
 
-<div id="snowbank" popover="manual" aria-hidden="true"></div>
-
 <!-- Popup windows -->
+<dialog class="win wide" tabindex="-1" id="win-about" aria-labelledby="t-about">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <span class="tag">About</span>
+  <h3 id="t-about">About me</h3>
+  <p>I'm Justin, an electrical engineering student in Penn's accelerated BS/MS program, graduating in May 2028.</p>
+  <p>My work runs up and down the hardware stack: transistor-level circuits in Cadence Virtuoso, PCBs for a 600 V race car, and silicon validation on the bench. This past summer I was a hardware development engineering intern at AWS Annapurna Labs in Austin, working on Trainium 3 and HBM4.</p>
+  <p>During the school year I'm an electrical hardware lead for Penn Electric Racing and a TA for graduate computer architecture.</p>
+</dialog>
+
+<dialog class="win" tabindex="-1" id="win-resume" aria-labelledby="t-resume">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <span class="tag sky">Resume</span>
+  <h3 id="t-resume">Resume</h3>
+  <p>One page, as a PDF.</p>
+  <div class="btns">
+    <a class="btn" href="public/Justin_Yu_Resume.pdf" download>Download</a>
+    <a class="btn alt" href="public/Justin_Yu_Resume.pdf" target="_blank" rel="noopener">Open in a new tab</a>
+  </div>
+</dialog>
+
 <dialog class="win wide" tabindex="-1" id="win-racing" aria-labelledby="t-racing">
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag">Racing</span>
@@ -521,9 +561,9 @@
 <dialog class="win wide" tabindex="-1" id="win-riscv" aria-labelledby="t-riscv">
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag leaf">Architecture</span>
-  <h3 id="t-riscv">5-stage pipelined RISC-V CPU</h3>
-  <p>I built a 5-stage pipelined RISC-V core: fetch, decode, execute, memory and writeback.</p>
-  <p>I'm also a TA for computer architecture.</p>
+  <h3 id="t-riscv">6-stage pipelined RISC-V CPU</h3>
+  <p>A 6-stage RV32IM pipeline written in SystemVerilog, with AXI-Lite memory, forwarding and hazard stalling, synthesized to an FPGA.</p>
+  <p>I'm also a TA for graduate computer architecture.</p>
 </dialog>
 
 <dialog class="win wide" tabindex="-1" id="win-os" aria-labelledby="t-os">
@@ -547,10 +587,10 @@
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag sky">Penn</span>
   <h3 id="t-classes">Coursework</h3>
-  <p>Electrical engineering major with a computer science minor. These are the classes closest to my work, grouped by topic. I'm also a TA for computer architecture.</p>
+  <p>Electrical engineering major with a computer science minor. These are the classes closest to my work, grouped by topic.</p>
   <div class="courses">
     <h4>Architecture &amp; systems</h4>
-    <div class="course"><span class="num">CIS&nbsp;5710</span><span class="name">Computer Organization and Design</span><span class="ctags"><span class="ctag grad">Grad</span></span></div>
+    <div class="course"><span class="num">CIS&nbsp;5710</span><span class="name">Computer Organization and Design</span><span class="ctags"><span class="ctag grad">Grad</span><span class="ctag">TA</span></span></div>
     <div class="course"><span class="num">ESE&nbsp;5320</span><span class="name">System-on-a-Chip Architecture</span><span class="ctags"><span class="ctag grad">Grad</span></span></div>
     <div class="course"><span class="num">CIS&nbsp;4480</span><span class="name">Operating Systems Design and Implementation</span><span class="ctags"></span></div>
     <h4>Circuits &amp; VLSI</h4>
@@ -591,22 +631,14 @@
   })();
 
   // Icons open popup windows. The URL hash (#racing etc.) links straight to one.
-  // Windows rise out of a snowbank drawn in front of them along the bottom of
-  // the screen, and sink back into it when closed.
+  // Windows rise up from below the screen and wobble into place, and drop
+  // back down when closed.
   (function () {
     var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var snow = document.getElementById("snowbank");
-    var canSnow = !reduce && snow && typeof snow.showPopover === "function";
     function win(name) { return document.getElementById("win-" + name); }
 
-    // Where the window starts: its top just below the lowest dip in the snow.
-    // Returns null when the window is too tall to clear the snow.
-    function buried(d) {
-      var r = d.getBoundingClientRect();
-      var bank = snow.getBoundingClientRect().height;
-      if (r.bottom > innerHeight - bank * 0.5) return null;
-      return innerHeight - bank * 0.5 - r.top;
-    }
+    // Distance that puts the window's top just below the bottom of the screen.
+    function below(d) { return innerHeight - d.getBoundingClientRect().top + 20; }
 
     function open(name) {
       var d = win(name);
@@ -615,14 +647,8 @@
       d.focus(); // focus the window, not the close button
       history.replaceState(null, "", "#" + name);
       if (reduce) return;
-      var start = canSnow ? buried(d) : null;
-      if (start === null) {
-        d.animate([{ opacity: 0, transform: "translateY(40px)" }, { opacity: 1, transform: "none" }], { duration: 250, easing: "ease-out" });
-        return;
-      }
-      snow.showPopover(); // shown after the dialog, so it stacks in front of it
       d.animate([
-        { offset: 0, transform: "translateY(" + start + "px)", easing: "cubic-bezier(.25,.7,.45,1)" },
+        { offset: 0, transform: "translateY(" + below(d) + "px)", easing: "cubic-bezier(.25,.7,.45,1)" },
         { offset: .62, transform: "translateY(-18px) rotate(-1.5deg)", easing: "ease-in-out" },
         { offset: .82, transform: "translateY(4px) rotate(.8deg)", easing: "ease-in-out" },
         { offset: 1, transform: "none" }
@@ -631,14 +657,13 @@
 
     function shut(d) {
       if (!d.open || d.dataset.closing) return;
-      var start = snow && snow.matches(":popover-open") ? buried(d) : null;
-      if (start === null) { d.close(); return; }
+      if (reduce) { d.close(); return; }
       d.dataset.closing = "1";
-      var sink = d.animate([{ transform: "none" }, { transform: "translateY(" + start + "px)" }],
+      var drop = d.animate([{ transform: "none" }, { transform: "translateY(" + below(d) + "px)" }],
         { duration: 380, easing: "ease-in", fill: "forwards" });
-      sink.onfinish = function () {
+      drop.onfinish = function () {
         d.close();
-        sink.cancel();
+        drop.cancel();
         delete d.dataset.closing;
       };
     }
@@ -648,7 +673,7 @@
     });
     document.querySelectorAll("dialog.win").forEach(function (d) {
       d.querySelector(".close").addEventListener("click", function () { shut(d); });
-      // Esc sinks the window too, instead of closing it instantly.
+      // Esc animates the window out too, instead of closing it instantly.
       d.addEventListener("cancel", function (e) { e.preventDefault(); shut(d); });
       // Clicking the dimmed area outside the window closes it.
       d.addEventListener("click", function (e) {
@@ -657,7 +682,6 @@
         if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) shut(d);
       });
       d.addEventListener("close", function () {
-        if (snow && snow.matches(":popover-open")) snow.hidePopover();
         history.replaceState(null, "", location.pathname + location.search);
       });
     });

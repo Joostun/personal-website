@@ -183,6 +183,43 @@
   .row.big .icon .avatar-icon { width: 144px; height: 144px; }
   .icon:hover .avatar-icon, .icon:focus-visible .avatar-icon { transform: translateY(-4px) rotate(-3deg); }
 
+  /* Resume window: work history on the left, PDF preview on the right */
+  dialog.win.resume { width: min(1040px, calc(100% - 32px)); padding: 30px 34px; }
+  .panes { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: start; }
+  .exp-heading {
+    margin: 14px 0 8px;
+    font-family: var(--heading);
+    font-weight: 400;
+    font-size: 24px;
+  }
+  .exp { list-style: none; margin: 0; padding: 0; }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 2px dashed #c9c9c9;
+  }
+  .exp-item:last-child { border-bottom: 0; }
+  .exp-mark svg {
+    width: 56px; height: 56px;
+    stroke: var(--ink); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round;
+  }
+  .exp-item h5 { margin: 0; font-size: 19px; }
+  .exp-open {
+    appearance: none; background: none; border: 0; padding: 0; cursor: pointer;
+    font: inherit; font-weight: 700; color: var(--ink); text-align: left;
+    text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px;
+  }
+  .exp-role { font-style: italic; }
+  .exp-when { font-size: 15px; color: #555; }
+  .win .exp-item p + p { margin-top: 2px; }
+  .win .exp-what { margin-top: 6px; font-size: 17px; }
+  .pane-caption { margin: 6px 0 14px; }
+  .pdf-shot { display: block; border: 3px solid var(--ink); border-radius: 4px; box-shadow: 5px 5px 0 0 var(--ink); background: #fff; }
+  .pdf-shot img { display: block; width: 100%; height: auto; }
+  .pdf-shot:hover { transform: translate(-1px, -1px); box-shadow: 6px 6px 0 0 var(--ink); }
+
   /* Popup windows */
   dialog.win {
     width: min(580px, calc(100% - 32px));
@@ -325,6 +362,8 @@
 
     dialog.win { padding: 22px 18px 20px; }
     dialog.win.wide { padding: 22px 18px 20px; font-size: 18px; }
+    dialog.win.resume { padding: 22px 18px 20px; }
+    .panes { grid-template-columns: 1fr; gap: 20px; }
     .row.big .icon { width: auto; }
     .row.big .icon svg, .row.big .icon .avatar-icon { width: 88px; height: 88px; }
     .row.big .icon span { font-size: 17px; }
@@ -515,14 +554,81 @@
   <p>During the school year I'm an electrical hardware lead for Penn Electric Racing and a TA for graduate computer architecture.</p>
 </dialog>
 
-<dialog class="win" tabindex="-1" id="win-resume" aria-labelledby="t-resume">
+<dialog class="win resume" tabindex="-1" id="win-resume" aria-labelledby="t-resume">
   <button class="close" type="button" aria-label="Close">&times;</button>
-  <span class="tag sky">Resume</span>
-  <h3 id="t-resume">Resume</h3>
-  <p>One page, as a PDF.</p>
-  <div class="btns">
-    <a class="btn" href="public/Justin_Yu_Resume.pdf" download>Download</a>
-    <a class="btn alt" href="public/Justin_Yu_Resume.pdf" target="_blank" rel="noopener">Open in a new tab</a>
+  <div class="panes">
+    <div>
+      <span class="tag sky">Resume</span>
+      <h3 id="t-resume">Resume</h3>
+      <h4 class="exp-heading">Where I've worked</h4>
+      <ol class="exp">
+        <li class="exp-item">
+          <span class="exp-mark"><svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M12 50 L9 34 L24 34 L22 50" fill="var(--red)"/>
+          <path d="M8 68 L12 54 L38 50 L46 38 L64 38 L70 50 L88 52 L95 60 L95 68 Z" fill="var(--red)"/>
+          <path d="M50 49 L54 42 L61 42 L65 49" fill="var(--sky)"/>
+          <circle cx="27" cy="70" r="11" fill="#2a2a2a"/>
+          <circle cx="27" cy="70" r="3.5" fill="#fff"/>
+          <circle cx="78" cy="70" r="11" fill="#2a2a2a"/>
+          <circle cx="78" cy="70" r="3.5" fill="#fff"/>
+        </svg></span>
+          <div>
+            <h5><button class="exp-open" type="button" data-open="racing">Penn Electric Racing</button></h5>
+            <p class="exp-role">Electrical Hardware Lead</p>
+            <p class="exp-when">Sep 2024 &ndash; Present</p>
+            <p class="exp-what">Leading 30+ engineers across 20+ PCBs through a rear- to four-wheel-drive redesign.</p>
+          </div>
+        </li>
+        <li class="exp-item">
+          <span class="exp-mark"><svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M22 8 H62 L80 26 V92 H22 Z" fill="#fff"/>
+          <path d="M62 8 V26 H80" fill="#e4e4e4"/>
+          <path d="M32 38 H70 M32 48 H70 M32 58 H56" fill="none" stroke-width="3"/>
+          <circle cx="70" cy="78" r="13" fill="var(--sun)"/>
+          <path d="M64 78 L69 83 L77 73" fill="none" stroke-width="3.5"/>
+        </svg></span>
+          <div>
+            <h5><button class="exp-open" type="button" data-open="research">Computational Intelligence Lab</button></h5>
+            <p class="exp-role">Research Intern</p>
+            <p class="exp-when">Jun &ndash; Aug 2025</p>
+            <p class="exp-what">Co-authored an ISCA 2026 paper on R2D2, a robot-reconfigurable datacenter network.</p>
+          </div>
+        </li>
+        <li class="exp-item">
+          <span class="exp-mark"><svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M34 22V10 M46 22V10 M58 22V10 M70 22V10 M34 78V90 M46 78V90 M58 78V90 M70 78V90 M22 34H10 M22 46H10 M22 58H10 M22 70H10 M78 34H90 M78 46H90 M78 58H90 M78 70H90" fill="none"/>
+          <rect x="22" y="22" width="56" height="56" rx="5" fill="var(--sky)"/>
+          <rect x="37" y="37" width="26" height="26" rx="2" fill="var(--sun)"/>
+        </svg></span>
+          <div>
+            <h5><button class="exp-open" type="button" data-open="silicon">AWS Annapurna Labs</button></h5>
+            <p class="exp-role">Hardware Development Engineering Intern</p>
+            <p class="exp-when">May &ndash; Aug 2026</p>
+            <p class="exp-what">Validated Trainium 3 power delivery, debugged HBM4 PHY training, and built an HBM4 controller testbench now used for ongoing validation.</p>
+          </div>
+        </li>
+        <li class="exp-item">
+          <span class="exp-mark"><svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M26 46 V66 Q50 80 74 66 V46" fill="#2a2a2a"/>
+          <path d="M50 18 L94 36 L50 54 L6 36 Z" fill="#2a2a2a"/>
+          <path d="M50 36 L82 44 V66" fill="none" stroke="var(--sun)" stroke-width="4"/>
+          <circle cx="82" cy="70" r="5" fill="var(--sun)"/>
+        </svg></span>
+          <div>
+            <h5><button class="exp-open" type="button" data-open="classes">University of Pennsylvania</button></h5>
+            <p class="exp-role">Computer Architecture TA</p>
+            <p class="exp-when">Aug 2026 &ndash; Present</p>
+            <p class="exp-what">TA for CIS 5710, graduate computer architecture.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+    <div class="pane-right">
+      <p class="pane-caption">Click <a href="public/Justin_Yu_Resume.pdf" target="_blank" rel="noopener">here</a> to open my resume, or <a href="public/Justin_Yu_Resume.pdf" download>download it</a>.</p>
+      <a class="pdf-shot" href="public/Justin_Yu_Resume.pdf" target="_blank" rel="noopener" aria-label="Open my resume as a PDF">
+        <img src="public/resume-preview.png" alt="Preview of my one-page resume" width="1020" height="1320" loading="lazy">
+      </a>
+    </div>
   </div>
 </dialog>
 
@@ -574,9 +680,9 @@
 <dialog class="win wide" tabindex="-1" id="win-sram" aria-labelledby="t-sram">
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag red">Custom IC</span>
-  <h3 id="t-sram">Pipelined MAC with two 4&times;16 SRAMs</h3>
+  <h3 id="t-sram">Pipelined MAC with two 16&times;4 SRAMs</h3>
   <p>In Cadence Virtuoso, I started with a 6T SRAM bitcell, laid out DRC/LVS-clean and run through Quantus parasitic extraction. I expanded it into an SRAM module with precharge, a sense amplifier and a decoder.</p>
-  <p>Then I built a sequencer and a 4&times;4 array multiplier, and put it all together with custom flip-flops and a 12-bit accumulator into a pipelined multiply-accumulate unit fed by two 4&times;16 SRAMs, verified on end-to-end dot products.</p>
+  <p>Then I built a sequencer and a 4&times;4 array multiplier, and put it all together with custom flip-flops and a 12-bit accumulator into a pipelined multiply-accumulate unit fed by two 16&times;4 SRAMs, verified on end-to-end dot products.</p>
   <p>I sized the critical path with logical effort and characterized setup and hold, clock-to-q, and energy per dot product. The finished MAC reached a minimum clock period of <strong>1.1 ns</strong>, about 909&nbsp;MHz, and I checked it for hold violations.</p>
 </dialog>
 
@@ -679,7 +785,8 @@
         if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) shut(d);
       });
       d.addEventListener("close", function () {
-        history.replaceState(null, "", location.pathname + location.search);
+        var still = document.querySelector("dialog.win[open]");
+        history.replaceState(null, "", still ? "#" + still.id.slice(4) : location.pathname + location.search);
       });
     });
     if (location.hash) open(location.hash.slice(1));

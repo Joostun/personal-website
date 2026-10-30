@@ -147,7 +147,6 @@
   }
   .more ul { margin: 0; padding-left: 20px; }
   .more li + li { margin-top: 8px; }
-  .more .jump { display: inline-block; margin-top: 12px; font-size: 16px; font-weight: 700; }
   @supports (interpolate-size: allow-keywords) {
     :root { interpolate-size: allow-keywords; }
     details.panel::details-content {
@@ -288,7 +287,6 @@
             <li>Designed the High Voltage Indicator PCB: a flyback from 600 V to 12 V, a BJT regulator stage for derating, and routing for creepage and clearance.</li>
             <li>Leading REV12's move from rear-wheel to four-wheel drive, across 20+ boards.</li>
           </ul>
-          <a class="jump" href="#racing">Full section &darr;</a>
         </div>
       </details>
       <details class="panel">
@@ -304,75 +302,27 @@
             <li>Validated power delivery for Trainium 3.</li>
             <li>Debugged HBM4 PHY training.</li>
           </ul>
-          <a class="jump" href="#silicon">Full section &darr;</a>
         </div>
       </details>
       <details class="panel">
         <summary>
           <span class="tag red">Research</span>
           <h3>ISCA 2026 author</h3>
-          <p>A paper on datacenter optimization and power consumption, from Dr. Li's Computational Intelligence Lab.</p>
+          <p>Published paper on datacenter optimization and power consumption, from Dr. Li's Computational Intelligence Lab.</p>
           <span class="more-toggle" aria-hidden="true"></span>
         </summary>
         <div class="more">
           <ul>
-            <li>Author on an ISCA 2026 paper (the International Symposium on Computer Architecture).</li>
+            <li>Author on a paper published at ISCA 2026, the International Symposium on Computer Architecture.</li>
             <li>The work looks at datacenter optimization and power consumption.</li>
             <li>Done in Dr. Li's Computational Intelligence Lab.</li>
           </ul>
-          <a class="jump" href="#silicon">Full section &darr;</a>
         </div>
       </details>
     </div>
   </section>
 
-  <section id="racing">
-    <h2>Penn Electric Racing</h2>
-    <p class="lede">Electrical Hardware Lead</p>
-    <div class="grid">
-      <article class="panel">
-        <span class="tag">BMS</span>
-        <div class="stat">600 V</div>
-        <h3>Battery management system</h3>
-        <p>Co-designed the BMS for the 600 V tractive system: an STM32 board talking SPI, I2C and CAN.</p>
-        <p>Validated it from the bench, to the harness, to HV precharge.</p>
-      </article>
-      <article class="panel">
-        <span class="tag sky">PCB</span>
-        <h3>High Voltage Indicator</h3>
-        <p>Designed the HVI board: a flyback stepping 600 V down to 12 V, a BJT regulator stage for derating, and routing laid out for creepage and clearance.</p>
-      </article>
-      <article class="panel">
-        <span class="tag leaf">REV12</span>
-        <div class="stat">20+ <small>boards</small></div>
-        <h3>Rear-wheel to four-wheel drive</h3>
-        <p>Leading the electrical move to four-wheel drive on REV12, across more than twenty boards.</p>
-      </article>
-    </div>
-  </section>
 
-  <section id="silicon">
-    <h2>Silicon</h2>
-    <p class="lede">AWS Annapurna Labs, and research</p>
-    <div class="grid">
-      <article class="panel">
-        <span class="tag sky">Verification</span>
-        <div class="stat">~4 s</div>
-        <h3>HBM4 power-stress testbench</h3>
-        <p>A SystemVerilog testbench for an HBM4 controller that generates and verifies 60 JEDEC IDD7R-style power-stress patterns in about four seconds. It used to take hours. The team adopted it.</p>
-      </article>
-      <article class="panel">
-        <span class="tag">Validation</span>
-        <h3>Trainium 3 and HBM4 PHY</h3>
-        <p>Power-delivery validation for Trainium 3, and debugging HBM4 PHY training.</p>
-      </article>
-      <article class="panel">
-        <span class="tag red">ISCA 2026</span>
-        <h3>Datacenter power research</h3>
-        <p>Author on an ISCA 2026 paper on datacenter optimization and power consumption, with Dr. Li's Computational Intelligence Lab.</p>
-      </article>
-    </div>
-  </section>
 
   <section id="projects">
     <h2>Projects</h2>

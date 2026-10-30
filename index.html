@@ -586,6 +586,17 @@
         </svg>
         <span>FPGA</span>
       </button>
+      <button class="icon" type="button" data-open="wordhunt">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <rect x="22" y="6" width="56" height="88" rx="9" fill="#2a2a2a"/>
+          <rect x="27" y="16" width="46" height="68" rx="3" fill="var(--leaf)"/>
+          <g fill="var(--sun)" stroke-width="2"><rect x="31" y="27" width="11" height="11" rx="2"/><rect x="44" y="27" width="11" height="11" rx="2"/><rect x="57" y="27" width="11" height="11" rx="2"/><rect x="70" y="27" width="11" height="11" rx="2"/><rect x="31" y="40" width="11" height="11" rx="2"/><rect x="44" y="40" width="11" height="11" rx="2"/><rect x="57" y="40" width="11" height="11" rx="2"/><rect x="70" y="40" width="11" height="11" rx="2"/><rect x="31" y="53" width="11" height="11" rx="2"/><rect x="44" y="53" width="11" height="11" rx="2"/><rect x="57" y="53" width="11" height="11" rx="2"/><rect x="70" y="53" width="11" height="11" rx="2"/><rect x="31" y="66" width="11" height="11" rx="2"/><rect x="44" y="66" width="11" height="11" rx="2"/><rect x="57" y="66" width="11" height="11" rx="2"/><rect x="70" y="66" width="11" height="11" rx="2"/></g>
+          <path d="M43 39 L56 52 L69 52" fill="none" stroke="var(--red)" stroke-width="4"/>
+          <path d="M96 4 L72 50" fill="none" stroke-width="5"/>
+          <path d="M96 4 L72 50" fill="none" stroke="#bbb" stroke-width="2"/>
+        </svg>
+        <span>Word Hunt bot</span>
+      </button>
     </div>
   </section>
 
@@ -757,6 +768,16 @@
     <div class="course"><span class="num">ESE&nbsp;3500</span><span class="name">Embedded Systems / Microcontroller Laboratory</span><span class="ctags"></span></div>
     <div class="course"><span class="num">ESE&nbsp;3600</span><span class="name">TinyML: Tiny Machine Learning for Embedded Systems</span><span class="ctags"></span></div>
   </div>
+</dialog>
+
+<dialog class="win wide" tabindex="-1" id="win-wordhunt" aria-labelledby="t-wordhunt">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <span class="tag leaf">Robotics</span>
+  <h3 id="t-wordhunt">A robot that plays Word Hunt</h3>
+  <p>In my first ESE class, I built a robot that plays Word Hunt, the iMessage word game, by dragging a stylus across the phone screen.</p>
+  <p>The solver is in Java. It loads a <strong>178,000-word</strong> dictionary into a trie, runs a depth-first search from every tile of the 4&times;4 board to find every valid word, sorts them longest first since those score the most, and turns each word's path into G-code.</p>
+  <p>A Python script on a Raspberry Pi streams that G-code over serial to the motion controller, waiting for an "ok" after every move. To read the board automatically, I tried OpenCV color masking with Tesseract OCR and a TensorFlow Lite letter classifier.</p>
+  <p class="cta"><a href="https://github.com/Joostun/wordhunthack" target="_blank" rel="noopener">See the code &rarr;</a></p>
 </dialog>
 
 <dialog class="win wide" tabindex="-1" id="win-fpga" aria-labelledby="t-fpga">

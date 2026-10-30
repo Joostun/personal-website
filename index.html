@@ -50,6 +50,7 @@
     --bg-top: rgb(214, 219, 220);
     --bg-bottom: #fff;
     --header: #c4cacd;
+    --bank: 140px; /* height of the snowbank popups rise out of */
     --heading: "CalvinNHobbes", "Nunito", "Helvetica Neue", Arial, sans-serif;
     --body: "Nunito", "Helvetica Neue", Arial, sans-serif;
     color-scheme: light;
@@ -193,12 +194,21 @@
   }
   dialog.win.wide { width: min(760px, calc(100% - 32px)); padding: 34px 40px 32px; font-size: 20px; }
   dialog.win.wide p + p { margin-top: 14px; }
-  dialog.win[open] { animation: pop .22s cubic-bezier(.2, .9, .3, 1.2); }
   dialog.win:focus { outline: none; }
   dialog.win::backdrop { background: rgba(0, 0, 0, .35); }
-  @keyframes pop {
-    from { opacity: 0; transform: scale(.92) rotate(-1deg); }
-    to { opacity: 1; transform: none; }
+  /* Snowbank drawn in front of popups so they can rise out of it.
+     It's a popover so it can sit above the open dialog. */
+  #snowbank {
+    position: fixed;
+    inset: auto 0 0 0;
+    width: 100%;
+    height: var(--bank);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%201200%20140%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20d%3D%22M-10%2062%20Q90%2022%20200%2052%20T420%2046%20T610%2058%20T820%2040%20T1010%2056%20T1210%2044%20V150%20H-10%20Z%22%20fill%3D%22%23fff%22%20stroke%3D%22%23000%22%20stroke-width%3D%224%22%20vector-effect%3D%22non-scaling-stroke%22/%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%20vector-effect%3D%22non-scaling-stroke%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M150%2092%20q12%20-6%2024%200%22/%3E%3Cpath%20d%3D%22M380%20100%20q10%20-5%2020%200%22/%3E%3Cpath%20d%3D%22M640%2094%20q12%20-6%2024%200%22/%3E%3Cpath%20d%3D%22M900%20102%20q10%20-5%2020%200%22/%3E%3Cpath%20d%3D%22M1080%2090%20q12%20-6%2024%200%22/%3E%3C/g%3E%3C/svg%3E") bottom / 100% 100% no-repeat;
+    pointer-events: none;
+    overflow: visible;
   }
   .close {
     position: absolute;
@@ -316,6 +326,7 @@
     .row.big .icon svg { width: 88px; height: 88px; }
     .row.big .icon span { font-size: 17px; }
     .row.big h2 { font-size: 20px; }
+    :root { --bank: 100px; }
     .course { grid-template-columns: 5.2em 1fr; gap: 4px 8px; }
     .course .ctags { grid-column: 2; }
     .course .ctags:empty { display: none; }
@@ -327,7 +338,6 @@
   @media (prefers-reduced-motion: reduce) {
     .forts img, .icon svg { transition: none; }
     .sled-run img { animation: none; }
-    dialog.win[open] { animation: none; }
   }
 </style>
 </head>
@@ -473,6 +483,8 @@
   <img src="public/sledding.png" alt="">
 </div>
 
+<div id="snowbank" popover="manual" aria-hidden="true"></div>
+
 <!-- Popup windows -->
 <dialog class="win wide" tabindex="-1" id="win-racing" aria-labelledby="t-racing">
   <button class="close" type="button" aria-label="Close">&times;</button>
@@ -579,27 +591,73 @@
   })();
 
   // Icons open popup windows. The URL hash (#racing etc.) links straight to one.
+  // Windows rise out of a snowbank drawn in front of them along the bottom of
+  // the screen, and sink back into it when closed.
   (function () {
+    var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var snow = document.getElementById("snowbank");
+    var canSnow = !reduce && snow && typeof snow.showPopover === "function";
     function win(name) { return document.getElementById("win-" + name); }
+
+    // Where the window starts: its top just below the lowest dip in the snow.
+    // Returns null when the window is too tall to clear the snow.
+    function buried(d) {
+      var r = d.getBoundingClientRect();
+      var bank = snow.getBoundingClientRect().height;
+      if (r.bottom > innerHeight - bank * 0.5) return null;
+      return innerHeight - bank * 0.5 - r.top;
+    }
+
     function open(name) {
       var d = win(name);
       if (!d || d.open) return;
       d.showModal();
       d.focus(); // focus the window, not the close button
       history.replaceState(null, "", "#" + name);
+      if (reduce) return;
+      var start = canSnow ? buried(d) : null;
+      if (start === null) {
+        d.animate([{ opacity: 0, transform: "translateY(40px)" }, { opacity: 1, transform: "none" }], { duration: 250, easing: "ease-out" });
+        return;
+      }
+      snow.showPopover(); // shown after the dialog, so it stacks in front of it
+      d.animate([
+        { offset: 0, transform: "translateY(" + start + "px)", easing: "cubic-bezier(.25,.7,.45,1)" },
+        { offset: .62, transform: "translateY(-18px) rotate(-1.5deg)", easing: "ease-in-out" },
+        { offset: .82, transform: "translateY(4px) rotate(.8deg)", easing: "ease-in-out" },
+        { offset: 1, transform: "none" }
+      ], { duration: 800 });
     }
+
+    function shut(d) {
+      if (!d.open || d.dataset.closing) return;
+      var start = snow && snow.matches(":popover-open") ? buried(d) : null;
+      if (start === null) { d.close(); return; }
+      d.dataset.closing = "1";
+      var sink = d.animate([{ transform: "none" }, { transform: "translateY(" + start + "px)" }],
+        { duration: 380, easing: "ease-in", fill: "forwards" });
+      sink.onfinish = function () {
+        d.close();
+        sink.cancel();
+        delete d.dataset.closing;
+      };
+    }
+
     document.querySelectorAll("[data-open]").forEach(function (b) {
       b.addEventListener("click", function () { open(b.dataset.open); });
     });
     document.querySelectorAll("dialog.win").forEach(function (d) {
-      d.querySelector(".close").addEventListener("click", function () { d.close(); });
+      d.querySelector(".close").addEventListener("click", function () { shut(d); });
+      // Esc sinks the window too, instead of closing it instantly.
+      d.addEventListener("cancel", function (e) { e.preventDefault(); shut(d); });
       // Clicking the dimmed area outside the window closes it.
       d.addEventListener("click", function (e) {
         if (e.target !== d) return;
         var r = d.getBoundingClientRect();
-        if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) d.close();
+        if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) shut(d);
       });
       d.addEventListener("close", function () {
+        if (snow && snow.matches(":popover-open")) snow.hidePopover();
         history.replaceState(null, "", location.pathname + location.search);
       });
     });

@@ -265,16 +265,7 @@
     background: var(--sun);
   }
   .ctag.grad { background: var(--leaf); }
-  .ctag.now { background: var(--sky); }
   .ctags { display: flex; gap: 6px; }
-  .stat {
-    font-weight: 700;
-    color: var(--stat);
-    font-size: 48px;
-    line-height: 1;
-    margin: 4px 0 12px;
-  }
-  .stat small { font-size: 21px; color: var(--ink); font-weight: 400; }
 
   /* Sled: sits centered and bobs over the snow */
   .sled-run {
@@ -465,11 +456,10 @@
   <span class="tag">Racing</span>
   <h3 id="t-racing">Penn Electric Racing</h3>
   <p class="role">Electrical Hardware Lead</p>
-  <div class="stat">600 V <small>tractive system</small></div>
   <ul>
-    <li>Co-designed the battery management system for the 600 V tractive system: an STM32 board on SPI, I2C and CAN, validated from the bench, to the harness, to HV precharge.</li>
-    <li>Designed the High Voltage Indicator PCB: a flyback from 600 V to 12 V, a BJT regulator stage for derating, and routing for creepage and clearance.</li>
-    <li>Leading REV12's move from rear-wheel to four-wheel drive, across 20+ boards.</li>
+    <li>Co-designed the battery management system for the <strong>600 V</strong> tractive system: an STM32 board on SPI, I2C and CAN, validated from the bench, to the harness, to HV precharge.</li>
+    <li>Designed the High Voltage Indicator PCB: a flyback from <strong>600 V to 12 V</strong>, a BJT regulator stage for derating, and routing for creepage and clearance.</li>
+    <li>Leading REV12's move from rear-wheel to four-wheel drive, across <strong>20+ boards</strong>.</li>
   </ul>
 </dialog>
 
@@ -478,9 +468,8 @@
   <span class="tag sky">Silicon</span>
   <h3 id="t-silicon">AWS Annapurna Labs</h3>
   <p class="role">Intern</p>
-  <div class="stat">~4 s <small>down from hours</small></div>
   <ul>
-    <li>Built a SystemVerilog testbench for an HBM4 controller that generates and verifies 60 JEDEC IDD7R-style power-stress patterns in about four seconds. It used to take hours. The team adopted it.</li>
+    <li>Built a SystemVerilog testbench for an HBM4 controller that generates and verifies <strong>60</strong> JEDEC IDD7R-style power-stress patterns in <strong>about four seconds</strong>. It used to take hours. The team adopted it.</li>
     <li>Validated power delivery for Trainium 3.</li>
     <li>Debugged HBM4 PHY training.</li>
   </ul>
@@ -511,10 +500,9 @@
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag red">Custom IC</span>
   <h3 id="t-sram">6T SRAM to a pipelined MAC</h3>
-  <div class="stat">1.1 ns <small>minimum clock period</small></div>
   <p>This one starts at a single 6T SRAM bitcell, the six-transistor cell that stores one bit. I laid it out in Cadence Virtuoso and took it through LVS and extraction.</p>
   <p>From there I built the cell up into an array, and then into a pipelined multiply-accumulate (MAC) unit.</p>
-  <p>The finished MAC reached a minimum clock period of 1.1 ns, about 909&nbsp;MHz, and I checked the design for hold violations too.</p>
+  <p>The finished MAC reached a minimum clock period of <strong>1.1 ns</strong>, about 909&nbsp;MHz, and I checked the design for hold violations too.</p>
 </dialog>
 
 <dialog class="win wide" tabindex="-1" id="win-classes" aria-labelledby="t-classes">
@@ -525,14 +513,14 @@
   <div class="courses">
     <h4>Architecture &amp; systems</h4>
     <div class="course"><span class="num">CIS&nbsp;5710</span><span class="name">Computer Organization and Design</span><span class="ctags"><span class="ctag grad">Grad</span></span></div>
-    <div class="course"><span class="num">ESE&nbsp;5320</span><span class="name">System-on-a-Chip Architecture</span><span class="ctags"><span class="ctag grad">Grad</span><span class="ctag now">Now</span></span></div>
+    <div class="course"><span class="num">ESE&nbsp;5320</span><span class="name">System-on-a-Chip Architecture</span><span class="ctags"><span class="ctag grad">Grad</span></span></div>
     <div class="course"><span class="num">CIS&nbsp;4480</span><span class="name">Operating Systems Design and Implementation</span><span class="ctags"></span></div>
     <h4>Circuits &amp; VLSI</h4>
-    <div class="course"><span class="num">ESE&nbsp;5700</span><span class="name">Digital Integrated Circuits and VLSI Fundamentals</span><span class="ctags"><span class="ctag grad">Grad</span><span class="ctag now">Now</span></span></div>
-    <div class="course"><span class="num">ESE&nbsp;5720</span><span class="name">Analog Integrated Circuits</span><span class="ctags"><span class="ctag grad">Grad</span><span class="ctag now">Now</span></span></div>
+    <div class="course"><span class="num">ESE&nbsp;5700</span><span class="name">Digital Integrated Circuits and VLSI Fundamentals</span><span class="ctags"><span class="ctag grad">Grad</span></span></div>
+    <div class="course"><span class="num">ESE&nbsp;5720</span><span class="name">Analog Integrated Circuits</span><span class="ctags"><span class="ctag grad">Grad</span></span></div>
     <div class="course"><span class="num">ESE&nbsp;3190</span><span class="name">Fundamentals of Solid-State Circuits</span><span class="ctags"></span></div>
     <h4>Devices &amp; power</h4>
-    <div class="course"><span class="num">ESE&nbsp;5800</span><span class="name">Power Electronics</span><span class="ctags"><span class="ctag grad">Grad</span><span class="ctag now">Now</span></span></div>
+    <div class="course"><span class="num">ESE&nbsp;5800</span><span class="name">Power Electronics</span><span class="ctags"><span class="ctag grad">Grad</span></span></div>
     <div class="course"><span class="num">ESE&nbsp;2180</span><span class="name">Electronic, Photonic, and Electromechanical Devices</span><span class="ctags"></span></div>
     <h4>Embedded</h4>
     <div class="course"><span class="num">ESE&nbsp;3500</span><span class="name">Embedded Systems / Microcontroller Laboratory</span><span class="ctags"></span></div>

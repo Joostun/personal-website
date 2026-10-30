@@ -724,10 +724,9 @@
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag leaf">Architecture</span>
   <h3 id="t-riscv">6-stage pipelined RISC-V CPU</h3>
-  <p>A pipelined RV32IM processor in SystemVerilog, running on a ULX3S FPGA board.</p>
-  <p>The pipeline started at five stages, with MX, WX and WD bypassing, load-use stalls in Decode, branches resolved in Execute, and an 8-cycle pipelined divider that rejoins the pipeline at Memory.</p>
-  <p>Then I moved instruction and data memory onto AXI4-Lite, which added a sixth stage between Fetch and Decode to cover the memory's one-cycle latency. Getting fetch right meant handling backpressure: dropping <code>RREADY</code> and <code>ARVALID</code> during stalls so in-flight fetches are never lost or duplicated.</p>
-  <p>I'm also a TA for graduate computer architecture.</p>
+  <p>A 6-stage pipelined RV32IM processor in SystemVerilog, running on a ULX3S FPGA board.</p>
+  <p>Instruction and data memory sit on AXI4-Lite, with an extra stage between Fetch and Decode for the memory's one-cycle latency. During stalls, <code>RREADY</code> and <code>ARVALID</code> drop so in-flight fetches are never lost or duplicated.</p>
+  <p>MX, WX and WD bypassing, load-use stalls in Decode, branches resolved in Execute, and an 8-cycle pipelined divider that rejoins the pipeline at Memory.</p>
 </dialog>
 
 <dialog class="win wide" tabindex="-1" id="win-os" aria-labelledby="t-os">
@@ -743,9 +742,9 @@
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag red">Custom IC</span>
   <h3 id="t-sram">Pipelined MAC with two 16&times;4 SRAMs</h3>
-  <p>In Cadence Virtuoso, I started with a 6T SRAM bitcell, laid out DRC/LVS-clean and run through Quantus parasitic extraction. I expanded it into an SRAM module with precharge, a sense amplifier and a decoder.</p>
-  <p>Then I built a sequencer and a 4&times;4 array multiplier, and put it all together with custom flip-flops and a 12-bit accumulator into a pipelined multiply-accumulate unit fed by two 16&times;4 SRAMs, verified on end-to-end dot products. DONE rises 18 cycles after START.</p>
-  <p>I sized the critical path with logical effort and characterized setup and hold, clock-to-q, and energy per dot product. The finished MAC reached a minimum clock period of <strong>1.1 ns</strong>, about 909&nbsp;MHz, and I checked it for hold violations.</p>
+  <p>A full-custom, transistor-level multiply-accumulate unit in Cadence Virtuoso: two 16&times;4 6T SRAM arrays, a 4&times;4 array multiplier, a 12-bit accumulator, custom flip-flops and an FSM sequencer. Verified end-to-end on dot products, with DONE rising 18 cycles after START.</p>
+  <p>Each SRAM module has precharge, a sense amplifier and a decoder. The bitcell and array layouts are DRC/LVS-clean, with Quantus parasitic extraction.</p>
+  <p>Critical path sized with logical effort, with setup and hold, clock-to-q, and energy per dot product characterized. Minimum clock period is <strong>1.1 ns</strong>, about 909&nbsp;MHz, checked for hold violations.</p>
 </dialog>
 
 <dialog class="win wide" tabindex="-1" id="win-classes" aria-labelledby="t-classes">
@@ -775,19 +774,19 @@
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag leaf">Robotics</span>
   <h3 id="t-wordhunt">A robot that plays Word Hunt</h3>
-  <p>In my first ESE class, I built a robot that plays Word Hunt, the iMessage word game, by dragging a stylus across the phone screen.</p>
-  <p>The solver is in Java. It loads a <strong>178,000-word</strong> dictionary into a trie, runs a depth-first search from every tile of the 4&times;4 board to find every valid word, sorts them longest first since those score the most, and turns each word's path into G-code.</p>
-  <p>A Python script on a Raspberry Pi streams that G-code over serial to the motion controller, waiting for an "ok" after every move. To read the board automatically, I tried OpenCV color masking with Tesseract OCR and a TensorFlow Lite letter classifier.</p>
+  <p>A robot that plays Word Hunt, the iMessage word game, by dragging a stylus across the phone screen.</p>
+  <p>The solver is in Java: a <strong>178,000-word</strong> dictionary in a trie, a depth-first search from every tile of the 4&times;4 board, words sorted longest first since those score the most, and each word's path turned into G-code.</p>
+  <p>A Python script on a Raspberry Pi streams that G-code over serial to the motion controller, waiting for an "ok" after every move. Board reading uses OpenCV color masking with Tesseract OCR and a TensorFlow Lite letter classifier.</p>
   <p class="cta"><a href="https://github.com/Joostun/wordhunthack" target="_blank" rel="noopener">See the code &rarr;</a></p>
 </dialog>
 
 <dialog class="win wide" tabindex="-1" id="win-fpga" aria-labelledby="t-fpga">
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag">FPGA</span>
-  <h3 id="t-fpga">Speeding up code on an Ultra96</h3>
-  <p>The Ultra96 pairs ARM cores with programmable logic on a Zynq UltraScale+ chip, and I worked through making real code faster on it, one layer at a time.</p>
-  <p>On the ARM side, I profiled a streaming pipeline (scale, filter, differentiate, compress) and read the compiler's assembly to see where the time went. I wrote content-defined chunking with a rolling hash, split the work across cores with coarse-grain parallelism and a two-core pipeline, and vectorized the hot loops with NEON SIMD.</p>
-  <p>On the FPGA side, I wrote matrix-multiply kernels in Vitis HLS, using pipelining and array partitioning to do more work every cycle, plus host code that keeps several buffers in flight so data transfers overlap with compute.</p>
+  <h3 id="t-fpga">Acceleration on an Ultra96</h3>
+  <p>Software and hardware acceleration on an Ultra96 board, which pairs ARM cores with programmable logic on a Zynq UltraScale+ chip.</p>
+  <p>On the ARM cores: profiling a streaming pipeline (scale, filter, differentiate, compress) down to the compiler's assembly, content-defined chunking with a rolling hash, multicore parallelism with coarse-grain splitting and a two-core pipeline, and NEON SIMD vectorization.</p>
+  <p>On the FPGA: matrix-multiply kernels in Vitis HLS using pipelining and array partitioning, with host code that keeps several buffers in flight so data transfers overlap with compute.</p>
 </dialog>
 
 

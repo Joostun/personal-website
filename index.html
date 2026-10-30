@@ -314,6 +314,10 @@
   .win p + p, .win p + ul { margin-top: 10px; }
   .win a { font-weight: 700; text-decoration-thickness: 2px; text-underline-offset: 3px; }
   .win .cta { margin-top: 16px; }
+  .win video.clip {
+    display: block; width: 100%; height: auto; margin: 16px 0;
+    border: 3px solid var(--ink); border-radius: 4px; box-shadow: 4px 4px 0 0 var(--ink); background: #000;
+  }
   .btns { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 18px; }
   .win a.btn {
     display: inline-block;
@@ -774,9 +778,10 @@
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag leaf">Robotics</span>
   <h3 id="t-wordhunt">A robot that plays Word Hunt</h3>
-  <p>A robot that plays Word Hunt, the iMessage word game, by dragging a stylus across the phone screen.</p>
+  <p>A robot that plays Word Hunt, the iMessage word game: a repurposed Ender 3D printer with a stylus on its print head, swiping words on an iPad.</p>
+  <video class="clip" src="public/video/wordhunt.mp4" poster="public/video/wordhunt-poster.jpg" width="960" height="540" muted loop playsinline controls preload="none" aria-label="The robot swiping words on an iPad"></video>
   <p>The solver is in Java: a <strong>178,000-word</strong> dictionary in a trie, a depth-first search from every tile of the 4&times;4 board, words sorted longest first since those score the most, and each word's path turned into G-code.</p>
-  <p>A Python script on a Raspberry Pi streams that G-code over serial to the motion controller, waiting for an "ok" after every move. Board reading uses OpenCV color masking with Tesseract OCR and a TensorFlow Lite letter classifier.</p>
+  <p>A Python script on a Raspberry Pi streams that G-code over serial to the printer, waiting for its "ok" after every move. Board reading uses OpenCV color masking with Tesseract OCR and a TensorFlow Lite letter classifier.</p>
   <p class="cta"><a href="https://github.com/Joostun/wordhunthack" target="_blank" rel="noopener">See the code &rarr;</a></p>
 </dialog>
 
@@ -822,6 +827,7 @@
       d.showModal();
       d.focus(); // focus the window, not the close button
       history.replaceState(null, "", "#" + name);
+      if (!reduce) d.querySelectorAll("video").forEach(function (v) { v.play().catch(function () {}); });
       if (reduce) return;
       d.animate([
         { offset: 0, transform: "translateY(" + below(d) + "px)", easing: "cubic-bezier(.25,.7,.45,1)" },
@@ -862,6 +868,7 @@
         if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) shut(d);
       });
       d.addEventListener("close", function () {
+        d.querySelectorAll("video").forEach(function (v) { v.pause(); });
         var still = document.querySelector("dialog.win[open]");
         history.replaceState(null, "", still ? "#" + still.id.slice(4) : location.pathname + location.search);
       });

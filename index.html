@@ -247,10 +247,21 @@
 
   /* About me: photo beside the text */
   .about-grid { display: grid; grid-template-columns: 220px 1fr; gap: 28px; align-items: start; margin-top: 8px; }
-  .win img.me {
-    width: 100%; height: auto; display: block;
+  /* Photo card that flips to a random Calvin face on hover */
+  .flip { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; perspective: 900px; }
+  .flip-inner {
+    position: relative; display: block;
     border: 3px solid var(--ink); border-radius: 4px; box-shadow: 4px 4px 0 0 var(--ink);
+    transform-style: preserve-3d; transition: transform .55s cubic-bezier(.3, .7, .3, 1.2);
   }
+  .flip.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip img { display: block; width: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .win img.me { height: auto; }
+  .win img.face {
+    position: absolute; inset: 0; height: 100%; object-fit: cover;
+    background: #fff; transform: rotateY(180deg);
+  }
+  .flip:focus-visible { outline: 3px solid var(--sky); outline-offset: 4px; }
   .about-grid p + p { margin-top: 14px; }
   .win img.group {
     width: 100%; height: auto; display: block; margin-top: 24px;
@@ -412,7 +423,7 @@
     dialog.win.resume { padding: 22px 18px 20px; }
     .panes { grid-template-columns: 1fr; gap: 20px; }
     .about-grid { grid-template-columns: 1fr; }
-    .win img.me { max-width: 220px; }
+    .flip { max-width: 220px; }
     .row.big .icon { width: auto; }
     .row.big .icon svg, .row.big .icon .avatar-icon { width: 88px; height: 88px; }
     .row.big .icon span { font-size: 17px; }
@@ -428,6 +439,7 @@
   @media (prefers-reduced-motion: reduce) {
     .forts img, .icon svg { transition: none; }
     .sled-run img { animation: none; }
+    .flip-inner { transition: none; }
   }
 </style>
 </head>
@@ -622,7 +634,12 @@
   <span class="tag">About</span>
   <h3 id="t-about">About me</h3>
   <div class="about-grid">
-    <img class="me" src="public/photos/justin.jpg" alt="Me at my desk, in a green sweatshirt, throwing a peace sign" width="769" height="1000">
+    <button class="flip" type="button" aria-label="Flip my photo to a Calvin face">
+      <span class="flip-inner">
+        <img class="me" src="public/photos/justin.jpg" alt="Me at my desk, in a green sweatshirt, throwing a peace sign" width="769" height="1000">
+        <img class="face" src="public/faces/face01.jpg" alt="" aria-hidden="true">
+      </span>
+    </button>
     <div>
       <p>Hi! I'm Justin, an electrical engineering student in Penn's accelerated BS/MS program, graduating in May 2028.</p>
       <p>I grew up building robots for competitions, and these days most of my time goes to Penn Electric Racing. Beyond the car, I'm really into computers and silicon.</p>
@@ -912,6 +929,27 @@
         if (e.key === "ArrowRight") show(at + 1);
       });
       pw.addEventListener("close", function () { viewer.hidden = true; });
+    }
+
+    // About me photo: flips to a random Calvin face (never the same one twice in a row).
+    var flip = document.querySelector(".flip");
+    if (flip) {
+      var face = flip.querySelector(".face"), last = 0, FACES = 12;
+      for (var i = 1; i <= FACES; i++) new Image().src = "public/faces/face" + (i < 10 ? "0" : "") + i + ".jpg";
+      function flipToFace() {
+        var n;
+        do { n = 1 + Math.floor(Math.random() * FACES); } while (n === last);
+        last = n;
+        face.src = "public/faces/face" + (n < 10 ? "0" : "") + n + ".jpg";
+        flip.classList.add("flipped");
+      }
+      flip.addEventListener("mouseenter", flipToFace);
+      flip.addEventListener("mouseleave", function () { flip.classList.remove("flipped"); });
+      // Tap or Enter on touch screens and keyboards: flip back and forth.
+      flip.addEventListener("click", function () {
+        if (flip.classList.contains("flipped") && !matchMedia("(hover: hover)").matches) flip.classList.remove("flipped");
+        else flipToFace();
+      });
     }
 
     if (location.hash) open(location.hash.slice(1));

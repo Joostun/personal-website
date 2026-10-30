@@ -427,7 +427,7 @@
             <rect x="20" y="68" width="12" height="12" fill="#fff"/><rect x="36" y="68" width="12" height="12" fill="var(--red)"/><rect x="52" y="68" width="12" height="12" fill="var(--red)"/><rect x="68" y="68" width="12" height="12" fill="#fff"/>
           </g>
         </svg>
-        <span>SRAM + MAC</span>
+        <span>Pipelined MAC</span>
       </button>
       <button class="icon" type="button" data-open="fpga">
         <svg viewBox="0 0 100 100" aria-hidden="true">
@@ -498,11 +498,11 @@
 
 <dialog class="win wide" tabindex="-1" id="win-sram" aria-labelledby="t-sram">
   <button class="close" type="button" aria-label="Close">&times;</button>
-  <span class="tag red">Custom IC</span>
-  <h3 id="t-sram">6T SRAM to a pipelined MAC</h3>
-  <p>This one starts at a single 6T SRAM bitcell, the six-transistor cell that stores one bit. I laid it out in Cadence Virtuoso and took it through LVS and extraction.</p>
-  <p>From there I built the cell up into an array, and then into a pipelined multiply-accumulate (MAC) unit.</p>
-  <p>The finished MAC reached a minimum clock period of <strong>1.1 ns</strong>, about 909&nbsp;MHz, and I checked the design for hold violations too.</p>
+  <span class="tag red">ESE 5700</span>
+  <h3 id="t-sram">Pipelined MAC with two 4&times;16 SRAMs</h3>
+  <p>Built in Cadence Virtuoso for ESE 5700, Digital Integrated Circuits and VLSI Fundamentals.</p>
+  <p>I started with a 6T SRAM bitcell and took it through LVS and extraction. I expanded it into an SRAM module with precharge, a sense amplifier and a decoder. Then I built a sequencer and a 4&times;4 multiplier, and put it all together into a pipelined multiply-accumulate unit fed by two 4&times;16 SRAMs.</p>
+  <p>The finished MAC reached a minimum clock period of <strong>1.1 ns</strong>, about 909&nbsp;MHz, and I checked it for hold violations.</p>
 </dialog>
 
 <dialog class="win wide" tabindex="-1" id="win-classes" aria-labelledby="t-classes">

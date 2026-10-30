@@ -683,8 +683,10 @@
 <dialog class="win wide" tabindex="-1" id="win-fpga" aria-labelledby="t-fpga">
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag">FPGA</span>
-  <h3 id="t-fpga">Matrix-multiply accelerators</h3>
-  <p>On an Ultra96 board, which pairs ARM cores with programmable logic on a Zynq UltraScale+ chip, I wrote matrix-multiply kernels in Vitis HLS, with host code that overlaps data transfers and compute.</p>
+  <h3 id="t-fpga">Speeding up code on an Ultra96</h3>
+  <p>The Ultra96 pairs ARM cores with programmable logic on a Zynq UltraScale+ chip, and I worked through making real code faster on it, one layer at a time.</p>
+  <p>On the ARM side, I profiled a streaming pipeline (scale, filter, differentiate, compress) and read the compiler's assembly to see where the time went. I wrote content-defined chunking with a rolling hash, split the work across cores with coarse-grain parallelism and a two-core pipeline, and vectorized the hot loops with NEON SIMD.</p>
+  <p>On the FPGA side, I wrote matrix-multiply kernels in Vitis HLS, using pipelining and array partitioning to do more work every cycle, plus host code that keeps several buffers in flight so data transfers overlap with compute.</p>
   <p>I also built a SHA, deduplication and compression pipeline on the same platform.</p>
 </dialog>
 

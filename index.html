@@ -26,7 +26,7 @@
     --paper: #fff;
     --bg-top: rgb(214, 219, 220);
     --bg-bottom: #fff;
-    --header: #b4bbbe;
+    --header: #c4cacd;
     --heading: "CalvinNHobbes", "Times New Roman", Times, serif;
     --body: "Times New Roman", Times, serif;
     color-scheme: light;
@@ -55,7 +55,6 @@
     gap: 24px;
     padding: 24px 32px 28px;
     background: var(--header);
-    border-bottom: 4px solid var(--ink);
   }
   .avatar img { width: 112px; height: auto; display: block; }
   .greeting { text-align: center; }
@@ -84,7 +83,7 @@
   .forts {
     display: flex;
     justify-content: center;
-    margin: 110px 0 -60px;
+    margin: 95px 0 -60px; /* cancels the -95px lift so image tops meet the header */
     pointer-events: none;
   }
   .forts img {
@@ -255,7 +254,7 @@
     .links { justify-self: center; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; }
     .links li + li { margin-top: 0; }
 
-    .forts { margin: 48px 0 0; }
+    .forts { margin: 30px 0 0; }
     .forts .hobbes { width: 42vw; transform: translate(-70vw, -30px); }
     .forts .calvin { width: 40vw; transform: translate(70vw, -30px); }
     .forts.in .hobbes { transform: translate(-3vw, -30px); }

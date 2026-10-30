@@ -32,57 +32,56 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; }
-
   html, body { margin: 0; }
 
   body {
     min-height: 100vh;
     color: var(--ink);
-    background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom)) fixed;
+    background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom) 70vh);
     background-color: var(--bg-bottom);
     font-family: var(--body);
     font-size: 19px;
     line-height: 1.5;
     overflow-x: clip;
   }
-
   a { color: inherit; }
 
-  /* Header */
-  .site-header {
-    height: 80px;
-    background: var(--paper);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-  }
-  .brand {
-    display: flex;
+  /* Header: avatar | greeting | links */
+  .top {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 24px;
-    height: 80px;
-    text-decoration: none;
-    min-width: 0;
+    padding: 28px 32px 0;
   }
-  .brand img { width: 64px; height: 64px; flex: none; }
-  .brand span {
+  .avatar img { width: 112px; height: auto; display: block; }
+  .greeting { text-align: center; }
+  .greeting h1 {
+    margin: 0;
     font-family: var(--heading);
-    font-size: 60px;
+    font-weight: 400;
+    font-size: clamp(52px, 7vw, 96px);
     line-height: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
-  .social { display: flex; gap: 16px; flex: none; }
-  .social a { display: block; line-height: 0; }
-  .social svg { width: 40px; height: 40px; }
+  .greeting p { margin: 10px 0 0; font-size: 20px; }
+  .links {
+    justify-self: end;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--heading);
+    font-size: 20px;
+  }
+  .links li + li { margin-top: 6px; }
+  .links a { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .links a:hover span { text-decoration: underline; }
+  .links svg { width: 22px; height: 22px; flex: none; }
 
-  /* Hero */
-  .hero { padding: 96px 16px 32px; text-align: center; }
+  /* Snowfort scene */
   .forts {
     display: flex;
     justify-content: center;
+    margin: 110px 0 -60px;
     pointer-events: none;
   }
   .forts img {
@@ -95,72 +94,94 @@
   .forts.in .hobbes { transform: translate(-210px, -95px); }
   .forts.in .calvin { transform: translate(210px, -95px); }
 
-  h1, h2, h3 { font-weight: 400; margin: 0; }
-  h1, h2 { font-family: var(--heading); line-height: 1.05; }
-  h1 { font-size: clamp(56px, 9vw, 112px); margin-top: -40px; }
-  .hero .sub { font-size: 22px; margin: 12px auto 0; max-width: 34em; }
-
-  /* Sections */
-  main { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
-  section { padding: 56px 0; }
-  section h2 { font-size: clamp(44px, 6vw, 72px); }
-  section .lede { font-size: 21px; font-style: italic; margin: 4px 0 28px; }
-
-  .grid {
+  /* Icon launcher */
+  .launcher { width: fit-content; max-width: 100%; margin: 0 auto; padding: 8px 16px 24px; }
+  .row {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
+    grid-template-columns: 96px 1fr;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 0;
+  }
+  .row h2 {
+    margin: 0;
+    font-family: var(--heading);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.15;
+    text-align: right;
+    text-transform: uppercase;
+  }
+  .icons { display: flex; flex-wrap: wrap; gap: 8px 12px; }
+  .icon {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 6px;
+    width: 148px;
+    cursor: pointer;
+    color: var(--ink);
+    font: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
+  }
+  .icon svg {
+    width: 96px;
+    height: 96px;
+    stroke: var(--ink);
+    stroke-width: 4;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    transition: transform .18s ease;
+  }
+  .icon:hover svg, .icon:focus-visible svg { transform: translateY(-4px) rotate(-3deg); }
+  .icon:nth-child(even):hover svg, .icon:nth-child(even):focus-visible svg { transform: translateY(-4px) rotate(3deg); }
+  .icon:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+  .icon span {
+    font-family: var(--heading);
+    font-size: 20px;
+    line-height: 1.15;
+    text-transform: uppercase;
+    text-align: center;
   }
 
-  .panel {
-    position: relative;
+  /* Popup windows */
+  dialog.win {
+    width: min(580px, calc(100% - 32px));
+    max-height: calc(100dvh - 48px);
+    overflow: auto;
+    padding: 28px 28px 26px;
     background: var(--paper);
+    color: var(--ink);
     border: 4px solid var(--ink);
     border-radius: 6px;
-    box-shadow: 5px 5px 0 0 var(--ink);
-    padding: 44px 20px 20px;
-    transform: rotate(0.4deg);
+    box-shadow: 8px 8px 0 0 var(--ink);
   }
-  .panel:nth-child(even) { transform: rotate(-0.4deg); }
-  /* Expandable intro cards */
-  .grid.expandable { align-items: start; }
-  details.panel summary {
-    list-style: none;
-    cursor: pointer;
+  dialog.win[open] { animation: pop .22s cubic-bezier(.2, .9, .3, 1.2); }
+  dialog.win:focus { outline: none; }
+  dialog.win::backdrop { background: rgba(0, 0, 0, .35); }
+  @keyframes pop {
+    from { opacity: 0; transform: scale(.92) rotate(-1deg); }
+    to { opacity: 1; transform: none; }
   }
-  details.panel summary::-webkit-details-marker { display: none; }
-  details.panel summary:focus-visible { outline: 3px solid var(--sky); outline-offset: 6px; }
-  details.panel:hover { box-shadow: 7px 7px 0 0 var(--ink); }
-  .more-toggle {
-    display: inline-block;
-    margin-top: 12px;
-    font-size: 16px;
-    font-weight: 700;
-    border-bottom: 2px solid var(--ink);
-  }
-  .more-toggle::after { content: "Read more +"; }
-  details[open] .more-toggle::after { content: "Show less \2212"; }
-  .more {
-    border-top: 2px dashed var(--ink);
-    margin-top: 14px;
-    padding-top: 14px;
-  }
-  .more ul { margin: 0; padding-left: 20px; }
-  .more li + li { margin-top: 8px; }
-  @supports (interpolate-size: allow-keywords) {
-    :root { interpolate-size: allow-keywords; }
-    details.panel::details-content {
-      height: 0;
-      overflow: clip;
-      transition: height .35s ease, content-visibility .35s allow-discrete;
-    }
-    details.panel[open]::details-content { height: auto; }
-  }
-
-  .tag {
+  .close {
     position: absolute;
-    top: -14px;
-    left: 14px;
+    top: 10px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    background: none;
+    font: 400 34px/1 var(--heading);
+    cursor: pointer;
+    color: var(--ink);
+  }
+  .close:focus-visible { outline: 3px solid var(--sky); border-radius: 4px; }
+  .tag {
+    display: inline-block;
     padding: 2px 10px;
     border: 2px solid var(--ink);
     border-radius: 3px;
@@ -173,25 +194,30 @@
   .tag.sky { background: var(--sky); }
   .tag.red { background: var(--red); }
   .tag.leaf { background: var(--leaf); }
-
-  .panel h3 { font-size: 23px; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
-  .panel p { margin: 0; }
-  .panel p + p { margin-top: 10px; }
-
+  .win h3 {
+    margin: 12px 48px 4px 0;
+    font-family: var(--heading);
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1.05;
+  }
+  .win .role { margin: 0 0 14px; font-style: italic; }
+  .win ul { margin: 0; padding-left: 22px; }
+  .win li + li { margin-top: 10px; }
+  .win p { margin: 0; }
+  .win p + p, .win p + ul { margin-top: 10px; }
   .stat {
-    font-family: var(--body);
     font-weight: 700;
     color: var(--stat);
-    font-size: 52px;
+    font-size: 48px;
     line-height: 1;
-    margin-bottom: 6px;
+    margin: 4px 0 12px;
   }
-  .stat small { font-size: 22px; color: var(--ink); font-weight: 400; }
+  .stat small { font-size: 21px; color: var(--ink); font-weight: 400; }
 
   /* Sled */
   .sled-run {
-    position: relative;
-    height: 520px;
+    height: 360px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -205,169 +231,182 @@
   }
   .sled-run.in img { transform: translate(500px, 100px); }
 
-  footer {
-    text-align: center;
-    padding: 24px 16px 40px;
-    font-size: 16px;
-  }
-  footer a { margin: 0 8px; }
-
   @media (max-width: 800px) {
     body { font-size: 18px; }
-    .brand { gap: 12px; }
-    .brand img { width: 52px; height: 52px; }
-    .brand span { font-size: 40px; }
-    .social svg { width: 32px; height: 32px; }
-    .social { gap: 12px; }
+    .top {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      gap: 14px;
+      padding: 24px 16px 0;
+    }
+    .avatar img { width: 84px; }
+    .links { justify-self: center; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; }
+    .links li + li { margin-top: 0; }
 
-    .hero { padding-top: 48px; }
+    .forts { margin: 48px 0 0; }
     .forts .hobbes { width: 42vw; transform: translate(-70vw, -30px); }
     .forts .calvin { width: 40vw; transform: translate(70vw, -30px); }
     .forts.in .hobbes { transform: translate(-3vw, -30px); }
     .forts.in .calvin { transform: translate(3vw, -30px); }
-    h1 { margin-top: 0; }
 
-    .grid { grid-template-columns: 1fr; gap: 32px; }
-    section { padding: 40px 0; }
+    .row { grid-template-columns: 1fr; gap: 4px; padding: 16px 0 4px; }
+    .row h2 { text-align: left; }
+    .icons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+    .icon { width: auto; }
+    .icon svg { width: 72px; height: 72px; }
+    .icon span { font-size: 16px; }
 
-    .sled-run { height: 320px; }
-    .sled-run img { width: 120px; transform: translate(-60vw, -140px); }
+    dialog.win { padding: 22px 18px 20px; }
+    .win h3 { font-size: 32px; }
+
+    .sled-run { height: 260px; }
+    .sled-run img { width: 120px; transform: translate(-60vw, -120px); }
     .sled-run.in img { transform: translate(60vw, 60px); }
   }
 
-  @media (max-width: 420px) {
-    .brand span { font-size: 32px; }
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .forts img, .sled-run img { transition: none; }
-    details.panel::details-content { transition: none; }
+    .forts img, .sled-run img, .icon svg { transition: none; }
+    dialog.win[open] { animation: none; }
   }
 </style>
 </head>
 <body>
 
-<header class="site-header">
-  <a class="brand" href="./">
-    <img src="public/pfp.png" alt="">
-    <span>Justin Yu</span>
-  </a>
-  <nav class="social" aria-label="Social links">
-    <a href="https://www.github.com/Joostun" aria-label="GitHub">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg>
-    </a>
-    <a href="https://www.linkedin.com/in/justin-yu-215a8a27b/" aria-label="LinkedIn">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></svg>
-    </a>
-  </nav>
+<header class="top">
+  <a class="avatar" href="./" aria-label="Home"><img src="public/pfp.png" alt=""></a>
+  <div class="greeting">
+    <h1>Hi, I'm Justin.</h1>
+    <p>Electrical engineering BS/MS student at the University of Pennsylvania.</p>
+  </div>
+  <ul class="links">
+    <li>
+      <a href="https://www.github.com/Joostun">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg>
+        <span>Joostun</span>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/justin-yu-215a8a27b/">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></svg>
+        <span>LinkedIn</span>
+      </a>
+    </li>
+  </ul>
 </header>
 
-<div class="hero">
-  <div class="forts" data-anim>
-    <img class="hobbes" src="public/hobbes_snowfort.png" alt="">
-    <img class="calvin" src="public/calvin_snowfort.png" alt="">
-  </div>
-  <h1>Hi, I'm Justin.</h1>
-  <p class="sub">Electrical engineering BS/MS student at the University of Pennsylvania.</p>
+<div class="forts" data-anim>
+  <img class="hobbes" src="public/hobbes_snowfort.png" alt="">
+  <img class="calvin" src="public/calvin_snowfort.png" alt="">
 </div>
 
-<main>
-  <section id="intro" aria-label="Overview">
-    <div class="grid expandable">
-      <details class="panel">
-        <summary>
-          <span class="tag">Racing</span>
-          <h3>Electrical Hardware Lead</h3>
-          <p>Penn Electric Racing. Battery management, high-voltage boards, and the move to four-wheel drive.</p>
-          <span class="more-toggle" aria-hidden="true"></span>
-        </summary>
-        <div class="more">
-          <ul>
-            <li>Co-designed the battery management system for the 600 V tractive system: an STM32 board on SPI, I2C and CAN, validated from the bench, to the harness, to HV precharge.</li>
-            <li>Designed the High Voltage Indicator PCB: a flyback from 600 V to 12 V, a BJT regulator stage for derating, and routing for creepage and clearance.</li>
-            <li>Leading REV12's move from rear-wheel to four-wheel drive, across 20+ boards.</li>
-          </ul>
-        </div>
-      </details>
-      <details class="panel">
-        <summary>
-          <span class="tag sky">Silicon</span>
-          <h3>AWS Annapurna Labs intern</h3>
-          <p>HBM4 controller verification and Trainium 3 power-delivery validation.</p>
-          <span class="more-toggle" aria-hidden="true"></span>
-        </summary>
-        <div class="more">
-          <ul>
-            <li>Built a SystemVerilog testbench for an HBM4 controller that generates and verifies 60 JEDEC IDD7R-style power-stress patterns in about four seconds, down from hours. The team adopted it.</li>
-            <li>Validated power delivery for Trainium 3.</li>
-            <li>Debugged HBM4 PHY training.</li>
-          </ul>
-        </div>
-      </details>
-      <details class="panel">
-        <summary>
-          <span class="tag red">Research</span>
-          <h3>ISCA 2026 author</h3>
-          <p>Published paper on datacenter optimization and power consumption, from Dr. Li's Computational Intelligence Lab.</p>
-          <span class="more-toggle" aria-hidden="true"></span>
-        </summary>
-        <div class="more">
-          <ul>
-            <li>Author on a paper published at ISCA 2026, the International Symposium on Computer Architecture.</li>
-            <li>The work looks at datacenter optimization and power consumption.</li>
-            <li>Done in Dr. Li's Computational Intelligence Lab.</li>
-          </ul>
-        </div>
-      </details>
+<main class="launcher">
+  <section class="row">
+    <h2>Work</h2>
+    <div class="icons">
+      <button class="icon" type="button" data-open="racing">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M12 50 L9 34 L24 34 L22 50" fill="var(--red)"/>
+          <path d="M8 68 L12 54 L38 50 L46 38 L64 38 L70 50 L88 52 L95 60 L95 68 Z" fill="var(--red)"/>
+          <path d="M50 49 L54 42 L61 42 L65 49" fill="var(--sky)"/>
+          <circle cx="27" cy="70" r="11" fill="#2a2a2a"/>
+          <circle cx="27" cy="70" r="3.5" fill="#fff"/>
+          <circle cx="78" cy="70" r="11" fill="#2a2a2a"/>
+          <circle cx="78" cy="70" r="3.5" fill="#fff"/>
+        </svg>
+        <span>Racing</span>
+      </button>
+      <button class="icon" type="button" data-open="silicon">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M34 22V10 M46 22V10 M58 22V10 M70 22V10 M34 78V90 M46 78V90 M58 78V90 M70 78V90 M22 34H10 M22 46H10 M22 58H10 M22 70H10 M78 34H90 M78 46H90 M78 58H90 M78 70H90" fill="none"/>
+          <rect x="22" y="22" width="56" height="56" rx="5" fill="var(--sky)"/>
+          <rect x="37" y="37" width="26" height="26" rx="2" fill="var(--sun)"/>
+        </svg>
+        <span>Silicon</span>
+      </button>
+      <button class="icon" type="button" data-open="research">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M22 8 H62 L80 26 V92 H22 Z" fill="#fff"/>
+          <path d="M62 8 V26 H80" fill="#e4e4e4"/>
+          <path d="M32 38 H70 M32 48 H70 M32 58 H56" fill="none" stroke-width="3"/>
+          <circle cx="70" cy="78" r="13" fill="var(--sun)"/>
+          <path d="M64 78 L69 83 L77 73" fill="none" stroke-width="3.5"/>
+        </svg>
+        <span>Research</span>
+      </button>
     </div>
   </section>
 
-
-
-  <section id="projects">
+  <section class="row">
     <h2>Projects</h2>
-    <p class="lede">From transistors up to the operating system</p>
-    <div class="grid">
-      <article class="panel">
-        <span class="tag leaf">Architecture</span>
-        <h3>RISC-V core and a UNIX-like OS</h3>
-        <p>A 5-stage pipelined RISC-V core, and a UNIX-like operating system.</p>
-        <p>I also TA computer architecture.</p>
-      </article>
-      <article class="panel">
-        <span class="tag red">Custom IC</span>
-        <h3>6T SRAM to a pipelined MAC</h3>
-        <p>A 6T SRAM bitcell in Virtuoso, taken through LVS and extraction, then built into an array and a pipelined multiply-accumulate unit.</p>
-      </article>
-      <article class="panel">
-        <span class="tag">FPGA + Fab</span>
-        <h3>Accelerators and a wafer</h3>
-        <p>HLS matrix-multiply accelerators on an Ultra96 (Zynq UltraScale+).</p>
-        <p>And in ESE 2180, I etched a design onto a wafer.</p>
-      </article>
+    <div class="icons">
+      <button class="icon" type="button" data-open="riscv">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M40 80 L37 90 H63 L60 80" fill="#bbb"/>
+          <rect x="8" y="16" width="84" height="64" rx="6" fill="#2a2a2a"/>
+          <path d="M22 38 L32 46 L22 54" fill="none" stroke="var(--leaf)" stroke-width="5"/>
+          <path d="M40 56 H58" fill="none" stroke="#fff" stroke-width="5"/>
+        </svg>
+        <span>RISC-V + OS</span>
+      </button>
+      <button class="icon" type="button" data-open="sram">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <rect x="12" y="12" width="76" height="76" rx="5" fill="#fff"/>
+          <g stroke-width="3">
+            <rect x="20" y="20" width="12" height="12" fill="var(--red)"/><rect x="36" y="20" width="12" height="12" fill="#fff"/><rect x="52" y="20" width="12" height="12" fill="var(--red)"/><rect x="68" y="20" width="12" height="12" fill="var(--red)"/>
+            <rect x="20" y="36" width="12" height="12" fill="#fff"/><rect x="36" y="36" width="12" height="12" fill="var(--red)"/><rect x="52" y="36" width="12" height="12" fill="#fff"/><rect x="68" y="36" width="12" height="12" fill="var(--red)"/>
+            <rect x="20" y="52" width="12" height="12" fill="var(--red)"/><rect x="36" y="52" width="12" height="12" fill="var(--red)"/><rect x="52" y="52" width="12" height="12" fill="#fff"/><rect x="68" y="52" width="12" height="12" fill="#fff"/>
+            <rect x="20" y="68" width="12" height="12" fill="#fff"/><rect x="36" y="68" width="12" height="12" fill="var(--red)"/><rect x="52" y="68" width="12" height="12" fill="var(--red)"/><rect x="68" y="68" width="12" height="12" fill="#fff"/>
+          </g>
+        </svg>
+        <span>SRAM + MAC</span>
+      </button>
+      <button class="icon" type="button" data-open="fpga">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M26 82 A38 38 0 1 1 74 82 Z" fill="#d5dbe0"/>
+          <g stroke-width="2.5" fill="var(--sky)">
+            <rect x="36" y="26" width="12" height="12"/><rect x="50" y="26" width="12" height="12"/>
+            <rect x="22" y="40" width="12" height="12"/><rect x="36" y="40" width="12" height="12"/><rect x="50" y="40" width="12" height="12"/><rect x="64" y="40" width="12" height="12"/>
+            <rect x="22" y="54" width="12" height="12"/><rect x="36" y="54" width="12" height="12"/><rect x="50" y="54" width="12" height="12"/><rect x="64" y="54" width="12" height="12"/>
+            <rect x="36" y="68" width="12" height="10"/><rect x="50" y="68" width="12" height="10"/>
+          </g>
+        </svg>
+        <span>FPGA + Wafer</span>
+      </button>
     </div>
   </section>
 
-  <section id="off-the-clock">
+  <section class="row">
     <h2>Off the clock</h2>
-    <p class="lede">When I'm not looking at a scope</p>
-    <div class="grid">
-      <article class="panel">
-        <span class="tag red">Kitchen</span>
-        <h3>Fried rice and Taco Bell</h3>
-        <p>I cook nasi goreng-style fried rice. I also keep a Taco Bell ranking.</p>
-      </article>
-      <article class="panel">
-        <span class="tag leaf">Sundays</span>
-        <div class="stat">12 <small>teams</small></div>
-        <h3>Fantasy football</h3>
-        <p>I play in a 12-team fantasy football league.</p>
-      </article>
-      <article class="panel">
-        <span class="tag sky">Reading</span>
-        <h3>Political theory</h3>
-        <p>Taking a political theory course: Marx, Tronti, 1848.</p>
-      </article>
+    <div class="icons">
+      <button class="icon" type="button" data-open="kitchen">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M66 6 L94 42 M76 4 L98 36" fill="none" stroke="#8a5a2b" stroke-width="5"/>
+          <path d="M16 52 Q28 28 50 30 Q72 28 84 52 Z" fill="#e9b65a"/>
+          <ellipse cx="50" cy="38" rx="15" ry="8" fill="#fff"/>
+          <circle cx="52" cy="37" r="5" fill="var(--sun)"/>
+          <path d="M10 52 H90 Q88 86 50 88 Q12 86 10 52 Z" fill="var(--red)"/>
+        </svg>
+        <span>Kitchen</span>
+      </button>
+      <button class="icon" type="button" data-open="football">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <g transform="rotate(-30 50 50)">
+            <ellipse cx="50" cy="50" rx="42" ry="25" fill="#8b4a2b"/>
+            <path d="M16 38 Q18 50 16 62 M84 38 Q82 50 84 62" fill="none" stroke="#fff" stroke-width="3.5"/>
+            <path d="M34 50 H66 M40 44 V56 M47 44 V56 M54 44 V56 M61 44 V56" fill="none" stroke="#fff" stroke-width="3.5"/>
+          </g>
+        </svg>
+        <span>Fantasy football</span>
+      </button>
+      <button class="icon" type="button" data-open="reading">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <rect x="12" y="68" width="76" height="18" rx="2" fill="var(--red)"/>
+          <rect x="18" y="48" width="66" height="18" rx="2" fill="var(--sky)"/>
+          <rect x="14" y="28" width="68" height="18" rx="2" fill="var(--leaf)" transform="rotate(-4 48 37)"/>
+          <path d="M22 77 H54 M28 57 H60" fill="none" stroke-width="3"/>
+        </svg>
+        <span>Reading</span>
+      </button>
     </div>
   </section>
 </main>
@@ -376,10 +415,97 @@
   <img src="public/sledding.png" alt="">
 </div>
 
-<footer>
-  <a href="https://www.github.com/Joostun">GitHub</a>
-  <a href="https://www.linkedin.com/in/justin-yu-215a8a27b/">LinkedIn</a>
-</footer>
+<!-- Popup windows -->
+<dialog class="win" tabindex="-1" id="win-racing" aria-labelledby="t-racing">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <span class="tag">Racing</span>
+  <h3 id="t-racing">Penn Electric Racing</h3>
+  <p class="role">Electrical Hardware Lead</p>
+  <div class="stat">600 V <small>tractive system</small></div>
+  <ul>
+    <li>Co-designed the battery management system for the 600 V tractive system: an STM32 board on SPI, I2C and CAN, validated from the bench, to the harness, to HV precharge.</li>
+    <li>Designed the High Voltage Indicator PCB: a flyback from 600 V to 12 V, a BJT regulator stage for derating, and routing for creepage and clearance.</li>
+    <li>Leading REV12's move from rear-wheel to four-wheel drive, across 20+ boards.</li>
+  </ul>
+</dialog>
+
+<dialog class="win" tabindex="-1" id="win-silicon" aria-labelledby="t-silicon">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <span class="tag sky">Silicon</span>
+  <h3 id="t-silicon">AWS Annapurna Labs</h3>
+  <p class="role">Intern</p>
+  <div class="stat">~4 s <small>down from hours</small></div>
+  <ul>
+    <li>Built a SystemVerilog testbench for an HBM4 controller that generates and verifies 60 JEDEC IDD7R-style power-stress patterns in about four seconds. It used to take hours. The team adopted it.</li>
+    <li>Validated power delivery for Trainium 3.</li>
+    <li>Debugged HBM4 PHY training.</li>
+  </ul>
+</dialog>
+
+<dialog class="win" tabindex="-1" id="win-research" aria-labelledby="t-research">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <span class="tag red">Research</span>
+  <h3 id="t-research">ISCA 2026</h3>
+  <p class="role">Dr. Li's Computational Intelligence Lab</p>
+  <ul>
+    <li>Author on a paper published at ISCA 2026, the International Symposium on Computer Architecture.</li>
+    <li>The work looks at datacenter optimization and power consumption.</li>
+  </ul>
+</dialog>
+
+<dialog class="win" tabindex="-1" id="win-riscv" aria-labelledby="t-riscv">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <span class="tag leaf">Architecture</span>
+  <h3 id="t-riscv">RISC-V core and a UNIX-like OS</h3>
+  <ul>
+    <li>A 5-stage pipelined RISC-V core.</li>
+    <li>A UNIX-like operating system.</li>
+    <li>TA for computer architecture.</li>
+  </ul>
+</dialog>
+
+<dialog class="win" tabindex="-1" id="win-sram" aria-labelledby="t-sram">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <span class="tag red">Custom IC</span>
+  <h3 id="t-sram">6T SRAM to a pipelined MAC</h3>
+  <ul>
+    <li>Designed a 6T SRAM bitcell in Virtuoso and took it through LVS and extraction.</li>
+    <li>Built it into an array, then into a pipelined multiply-accumulate unit.</li>
+  </ul>
+</dialog>
+
+<dialog class="win" tabindex="-1" id="win-fpga" aria-labelledby="t-fpga">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <span class="tag">FPGA + Fab</span>
+  <h3 id="t-fpga">Accelerators and a wafer</h3>
+  <ul>
+    <li>HLS matrix-multiply accelerators on an Ultra96 (Zynq UltraScale+).</li>
+    <li>Etched a design onto a wafer in ESE 2180.</li>
+  </ul>
+</dialog>
+
+<dialog class="win" tabindex="-1" id="win-kitchen" aria-labelledby="t-kitchen">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <span class="tag red">Kitchen</span>
+  <h3 id="t-kitchen">Fried rice and Taco Bell</h3>
+  <p>I cook nasi goreng-style fried rice.</p>
+  <p>I also keep a Taco Bell ranking.</p>
+</dialog>
+
+<dialog class="win" tabindex="-1" id="win-football" aria-labelledby="t-football">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <span class="tag leaf">Sundays</span>
+  <h3 id="t-football">Fantasy football</h3>
+  <div class="stat">12 <small>teams</small></div>
+  <p>I play in a 12-team fantasy football league.</p>
+</dialog>
+
+<dialog class="win" tabindex="-1" id="win-reading" aria-labelledby="t-reading">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <span class="tag sky">Reading</span>
+  <h3 id="t-reading">Political theory</h3>
+  <p>Taking a political theory course: Marx, Tronti, 1848.</p>
+</dialog>
 
 <script>
   // Replays like framer-motion's whileInView: add .in on enter, drop it on exit.
@@ -393,6 +519,34 @@
       entries.forEach(function (e) { e.target.classList.toggle("in", e.isIntersecting); });
     }, { threshold: 0.25 });
     els.forEach(function (el) { io.observe(el); });
+  })();
+
+  // Icons open popup windows. The URL hash (#racing etc.) links straight to one.
+  (function () {
+    function win(name) { return document.getElementById("win-" + name); }
+    function open(name) {
+      var d = win(name);
+      if (!d || d.open) return;
+      d.showModal();
+      d.focus(); // focus the window, not the close button
+      history.replaceState(null, "", "#" + name);
+    }
+    document.querySelectorAll("[data-open]").forEach(function (b) {
+      b.addEventListener("click", function () { open(b.dataset.open); });
+    });
+    document.querySelectorAll("dialog.win").forEach(function (d) {
+      d.querySelector(".close").addEventListener("click", function () { d.close(); });
+      // Clicking the dimmed area outside the window closes it.
+      d.addEventListener("click", function (e) {
+        if (e.target !== d) return;
+        var r = d.getBoundingClientRect();
+        if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) d.close();
+      });
+      d.addEventListener("close", function () {
+        history.replaceState(null, "", location.pathname + location.search);
+      });
+    });
+    if (location.hash) open(location.hash.slice(1));
   })();
 </script>
 </body>

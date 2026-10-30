@@ -507,8 +507,10 @@
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag red">Custom IC</span>
   <h3 id="t-sram">6T SRAM to a pipelined MAC</h3>
+  <div class="stat">1.1 ns <small>minimum clock period</small></div>
   <p>This one starts at a single 6T SRAM bitcell, the six-transistor cell that stores one bit. I laid it out in Cadence Virtuoso and took it through LVS and extraction.</p>
   <p>From there I built the cell up into an array, and then into a pipelined multiply-accumulate (MAC) unit.</p>
+  <p>The finished MAC reached a minimum clock period of 1.1 ns, about 909&nbsp;MHz, and I checked the design for hold violations too.</p>
 </dialog>
 
 <dialog class="win wide" tabindex="-1" id="win-classes" aria-labelledby="t-classes">

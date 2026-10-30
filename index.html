@@ -245,6 +245,20 @@
   .viewer .prev { left: 16px; }
   .viewer .next { right: 16px; }
 
+  /* About me: photo beside the text */
+  .about-grid { display: grid; grid-template-columns: 220px 1fr; gap: 28px; align-items: start; margin-top: 8px; }
+  .win img.me {
+    width: 100%; height: auto; display: block;
+    border: 3px solid var(--ink); border-radius: 4px; box-shadow: 4px 4px 0 0 var(--ink);
+    transform: rotate(-1.5deg);
+  }
+  .about-grid p + p { margin-top: 14px; }
+  .win img.group {
+    width: 100%; height: auto; display: block; margin-top: 24px;
+    border: 3px solid var(--ink); border-radius: 4px; box-shadow: 4px 4px 0 0 var(--ink);
+    transform: rotate(.6deg);
+  }
+
   /* Popup windows */
   dialog.win {
     width: min(580px, calc(100% - 32px));
@@ -389,6 +403,8 @@
     dialog.win.wide { padding: 22px 18px 20px; font-size: 18px; }
     dialog.win.resume { padding: 22px 18px 20px; }
     .panes { grid-template-columns: 1fr; gap: 20px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .win img.me { max-width: 220px; }
     .row.big .icon { width: auto; }
     .row.big .icon svg, .row.big .icon .avatar-icon { width: 88px; height: 88px; }
     .row.big .icon span { font-size: 17px; }
@@ -586,9 +602,15 @@
   <button class="close" type="button" aria-label="Close">&times;</button>
   <span class="tag">About</span>
   <h3 id="t-about">About me</h3>
-  <p>Hi! I'm Justin, an electrical engineering student in Penn's accelerated BS/MS program, graduating in May 2028.</p>
-  <p>I grew up building robots for competitions, and these days most of my time goes to Penn Electric Racing, where I'm a lead. High voltage is my main focus, but I also work on our PDU and the DAQ and dash boards. Beyond the car, I'm really into computers and silicon.</p>
-  <p>When I'm not doing school or club stuff, you'll probably find me climbing, taking photos with my Fujifilm X-T30 III, playing League of Legends, or getting boba.</p>
+  <div class="about-grid">
+    <img class="me" src="public/photos/justin.jpg" alt="Me at my desk, in a green sweatshirt, throwing a peace sign" width="884" height="1000">
+    <div>
+      <p>Hi! I'm Justin, an electrical engineering student in Penn's accelerated BS/MS program, graduating in May 2028.</p>
+      <p>I grew up building robots for competitions, and these days most of my time goes to Penn Electric Racing, where I'm a lead. High voltage is my main focus, but I also work on our PDU and the DAQ and dash boards. Beyond the car, I'm really into computers and silicon.</p>
+      <p>When I'm not doing school or club stuff, you'll probably find me climbing, taking photos with my Fujifilm X-T30 III, playing League of Legends, or getting boba.</p>
+    </div>
+  </div>
+  <img class="group" src="public/photos/snowman.jpg" alt="A group of us in the snow next to a giant snow cat wearing a traffic cone" width="1800" height="949" loading="lazy">
 </dialog>
 
 <dialog class="win photos" tabindex="-1" id="win-photos" aria-labelledby="t-photos">
@@ -746,7 +768,6 @@
   <p>The Ultra96 pairs ARM cores with programmable logic on a Zynq UltraScale+ chip, and I worked through making real code faster on it, one layer at a time.</p>
   <p>On the ARM side, I profiled a streaming pipeline (scale, filter, differentiate, compress) and read the compiler's assembly to see where the time went. I wrote content-defined chunking with a rolling hash, split the work across cores with coarse-grain parallelism and a two-core pipeline, and vectorized the hot loops with NEON SIMD.</p>
   <p>On the FPGA side, I wrote matrix-multiply kernels in Vitis HLS, using pipelining and array partitioning to do more work every cycle, plus host code that keeps several buffers in flight so data transfers overlap with compute.</p>
-  <p>I also built a SHA, deduplication and compression pipeline on the same platform.</p>
 </dialog>
 
 

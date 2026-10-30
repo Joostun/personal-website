@@ -220,6 +220,31 @@
   .pdf-shot img { display: block; width: 100%; height: auto; }
   .pdf-shot:hover { transform: translate(-1px, -1px); box-shadow: 6px 6px 0 0 var(--ink); }
 
+  /* Photo gallery */
+  dialog.win.photos { width: min(1100px, calc(100% - 32px)); }
+  .gallery { columns: 3 260px; column-gap: 16px; margin-top: 16px; }
+  .shot {
+    display: block; width: 100%; margin: 0 0 16px; padding: 0;
+    border: 3px solid var(--ink); border-radius: 4px; background: #fff;
+    box-shadow: 4px 4px 0 0 var(--ink); cursor: zoom-in; break-inside: avoid;
+  }
+  .shot img { display: block; width: 100%; height: auto; }
+  .shot:hover, .shot:focus-visible { transform: translate(-1px, -1px); box-shadow: 6px 6px 0 0 var(--ink); outline: none; }
+  .viewer {
+    position: fixed; inset: 0; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0, 0, 0, .88); cursor: zoom-out;
+  }
+  .viewer[hidden] { display: none; }
+  .viewer img { max-width: 92vw; max-height: 88vh; border: 4px solid #fff; border-radius: 4px; }
+  .viewer .nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 52px; height: 52px; border: 3px solid var(--ink); border-radius: 50%;
+    background: var(--paper); font: 400 34px/1 var(--heading); cursor: pointer; color: var(--ink);
+  }
+  .viewer .prev { left: 16px; }
+  .viewer .next { right: 16px; }
+
   /* Popup windows */
   dialog.win {
     width: min(580px, calc(100% - 32px));
@@ -429,6 +454,18 @@
         </svg>
         <span>Resume</span>
       </button>
+      <button class="icon" type="button" data-open="photos">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M34 28 L40 18 H60 L66 28" fill="#2a2a2a"/>
+          <rect x="8" y="28" width="84" height="56" rx="7" fill="#d5dbe0"/>
+          <rect x="14" y="20" width="14" height="8" rx="2" fill="#2a2a2a"/>
+          <circle cx="50" cy="56" r="20" fill="#2a2a2a"/>
+          <circle cx="50" cy="56" r="11" fill="var(--sky)"/>
+          <circle cx="46" cy="52" r="3" fill="#fff" stroke="none"/>
+          <circle cx="80" cy="38" r="4" fill="var(--sun)" stroke-width="3"/>
+        </svg>
+        <span>Photos</span>
+      </button>
     </div>
   </section>
 
@@ -552,6 +589,28 @@
   <p>Hi! I'm Justin, an electrical engineering student in Penn's accelerated BS/MS program, graduating in May 2028.</p>
   <p>I grew up building robots for competitions, and these days most of my time goes to Penn Electric Racing, where I'm a lead. High voltage is my main focus, but I also work on our PDU and the DAQ and dash boards. Beyond the car, I'm really into computers and silicon.</p>
   <p>When I'm not doing school or club stuff, you'll probably find me climbing, taking photos with my Fujifilm X-T30 III, playing League of Legends, or getting boba.</p>
+</dialog>
+
+<dialog class="win photos" tabindex="-1" id="win-photos" aria-labelledby="t-photos">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <span class="tag leaf">Photos</span>
+  <h3 id="t-photos">Photos</h3>
+  <p>Shot on my Fujifilm X-T30 III. Click one to see it bigger.</p>
+  <div class="gallery">
+    <button class="shot" type="button" data-full="public/photos/DSCF0014.jpg"><img src="public/photos/thumbs/DSCF0014.jpg" alt="Pink and white flowers" width="640" height="427" loading="lazy"></button>
+    <button class="shot" type="button" data-full="public/photos/DSCF0063.jpg"><img src="public/photos/thumbs/DSCF0063.jpg" alt="Trees and a big sky over a lawn" width="640" height="427" loading="lazy"></button>
+    <button class="shot" type="button" data-full="public/photos/DSCF0145.jpg"><img src="public/photos/thumbs/DSCF0145.jpg" alt="Tall cumulus clouds" width="640" height="427" loading="lazy"></button>
+    <button class="shot" type="button" data-full="public/photos/DSCF0150.jpg"><img src="public/photos/thumbs/DSCF0150.jpg" alt="City skyline across the water" width="640" height="427" loading="lazy"></button>
+    <button class="shot" type="button" data-full="public/photos/DSCF0255.jpg"><img src="public/photos/thumbs/DSCF0255.jpg" alt="Sunset over a lake with docks" width="640" height="427" loading="lazy"></button>
+    <button class="shot" type="button" data-full="public/photos/DSCF0308.jpg"><img src="public/photos/thumbs/DSCF0308.jpg" alt="Blue sports car in a parking lot" width="427" height="640" loading="lazy"></button>
+    <button class="shot" type="button" data-full="public/photos/DSCF0556.jpg"><img src="public/photos/thumbs/DSCF0556.jpg" alt="Sunset over a beach" width="640" height="427" loading="lazy"></button>
+    <button class="shot" type="button" data-full="public/photos/DSCF0618.jpg"><img src="public/photos/thumbs/DSCF0618.jpg" alt="City street lined with tall buildings" width="640" height="427" loading="lazy"></button>
+  </div>
+  <div class="viewer" hidden>
+    <img alt="">
+    <button class="nav prev" type="button" aria-label="Previous photo">&lsaquo;</button>
+    <button class="nav next" type="button" aria-label="Next photo">&rsaquo;</button>
+  </div>
 </dialog>
 
 <dialog class="win resume" tabindex="-1" id="win-resume" aria-labelledby="t-resume">
@@ -751,7 +810,11 @@
     document.querySelectorAll("dialog.win").forEach(function (d) {
       d.querySelector(".close").addEventListener("click", function () { shut(d); });
       // Esc animates the window out too, instead of closing it instantly.
-      d.addEventListener("cancel", function (e) { e.preventDefault(); shut(d); });
+      d.addEventListener("cancel", function (e) {
+        e.preventDefault();
+        var v = d.querySelector(".viewer:not([hidden])");
+        if (v) v.hidden = true; else shut(d);
+      });
       // Clicking the dimmed area outside the window closes it.
       d.addEventListener("click", function (e) {
         if (e.target !== d) return;
@@ -763,6 +826,29 @@
         history.replaceState(null, "", still ? "#" + still.id.slice(4) : location.pathname + location.search);
       });
     });
+    // Photo viewer: click a photo to see it big, arrows to flip through.
+    var pw = win("photos");
+    if (pw) {
+      var shots = Array.prototype.slice.call(pw.querySelectorAll(".shot"));
+      var viewer = pw.querySelector(".viewer"), big = viewer.querySelector("img"), at = 0;
+      function show(i) {
+        at = (i + shots.length) % shots.length;
+        big.src = shots[at].dataset.full;
+        big.alt = shots[at].querySelector("img").alt;
+        viewer.hidden = false;
+      }
+      shots.forEach(function (s, i) { s.addEventListener("click", function () { show(i); }); });
+      viewer.querySelector(".prev").addEventListener("click", function (e) { e.stopPropagation(); show(at - 1); });
+      viewer.querySelector(".next").addEventListener("click", function (e) { e.stopPropagation(); show(at + 1); });
+      viewer.addEventListener("click", function () { viewer.hidden = true; });
+      pw.addEventListener("keydown", function (e) {
+        if (viewer.hidden) return;
+        if (e.key === "ArrowLeft") show(at - 1);
+        if (e.key === "ArrowRight") show(at + 1);
+      });
+      pw.addEventListener("close", function () { viewer.hidden = true; });
+    }
+
     if (location.hash) open(location.hash.slice(1));
   })();
 </script>

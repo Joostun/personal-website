@@ -1,0 +1,8 @@
+// Cloudflare Worker that serves this folder as a static site (no build step).
+{
+  "name": "personal-website",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "."
+  }
+}

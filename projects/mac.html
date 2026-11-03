@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pipelined SRAM MAC</title>
+<meta name="description" content="A full-custom, transistor-level multiply-accumulate unit with two 16x4 6T SRAMs, from bitcell to verified dot products.">
+<link rel="stylesheet" href="writeup.css">
+</head>
+<body>
+
+<nav class="bar">
+  <a href="../#sram">&larr; Back</a>
+  <a href="../">Justin Yu</a>
+</nav>
+
+<main>
+  <header class="hero">
+    <span class="tag">Custom IC</span>
+    <h1>Pipelined MAC with two 16&times;4 SRAMs</h1>
+    <p class="lede">A full-custom, transistor-level multiply-accumulate unit in Cadence Virtuoso, from a single 6T bitcell up to a verified dot product, in a FinFET process at 0.8&nbsp;V.</p>
+
+    <div class="stats">
+      <div class="stat"><b>1.1 ns</b><span>minimum clock period</span></div>
+      <div class="stat"><b>18</b><span>cycles per dot product</span></div>
+      <div class="stat"><b>0.38 pJ</b><span>per MAC, memory included</span></div>
+      <div class="stat"><b>~590 &micro;m&sup2;</b><span>total area</span></div>
+    </div>
+  </header>
+
+  <section class="panel">
+    <h2>Architecture</h2>
+    <figure>
+      <img src="../public/projects/mac/block-diagram.png" width="1400" height="525" alt="Block diagram: SRAM W and SRAM X feed the WR/XR registers, then a 4x4 multiplier, a 12-bit adder and the accumulator, with a sequencer driving the shared address, accumulator enable and DONE">
+    </figure>
+    <p>A two-stage pipeline: both SRAMs are read in one cycle, then a 4&times;4 array multiplier and 12-bit ripple-carry adder accumulate in the next. An FSM sequencer steps through all 16 addresses, so DONE rises 18 cycles after START.</p>
+  </section>
+
+  <section class="panel">
+    <h2>The bitcell</h2>
+    <div class="grid2">
+      <figure>
+        <img src="../public/projects/mac/bitcell-layout.png" width="726" height="438" alt="Bitcell layout with VDD and VSS rails, bitlines BL and BL*, and the wordline">
+        <figcaption>0.91 &micro;m&sup2;, DRC and LVS clean.</figcaption>
+      </figure>
+      <div class="tbl"><table>
+        <tr><th>Post-layout, 0.8 V</th><th class="n">Value</th></tr>
+        <tr><td>Hold SNM</td><td class="n">284 mV</td></tr>
+        <tr><td>Read SNM</td><td class="n">151 mV</td></tr>
+        <tr><td>Write margin</td><td class="n">236 mV</td></tr>
+        <tr><td>Read current</td><td class="n">23.45 &micro;A</td></tr>
+      </table></div>
+    </div>
+    <p>Sized by hand to a 3-fin pull-down with &beta;&nbsp;=&nbsp;1.5, then checked against simulation after Quantus extraction. It still reads and writes at 0.5&nbsp;V.</p>
+  </section>
+
+  <section class="panel">
+    <h2>The SRAM</h2>
+    <div class="grid2">
+      <div>
+        <p>Each SRAM has a 2-2 predecoded row decoder (163 ps, chosen over a 264 ps flat NAND4), a sense amp, precharge, write drivers, and a timing controller built from one inverter delay chain. A 64-cycle checkerboard test passed all 32 reads.</p>
+        <div class="tbl"><table>
+          <tr><th>Metric</th><th class="n">Value</th></tr>
+          <tr><td>Access time</td><td class="n">440 ps</td></tr>
+          <tr><td>Clock period</td><td class="n">0.75 ns</td></tr>
+          <tr><td>Write / read power</td><td class="n">120 / 135 &micro;W</td></tr>
+          <tr><td>Area</td><td class="n">159.3 &micro;m&sup2;</td></tr>
+        </table></div>
+      </div>
+      <figure class="narrow" style="max-width:240px;margin:18px auto">
+        <img src="../public/projects/mac/array-layout.jpg" width="500" height="981" alt="Layout of the 16 by 4 SRAM array, 5.357 by 11.603 micrometers">
+        <figcaption>The 16&times;4 array, 62.2 &micro;m&sup2;.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>The MAC</h2>
+    <figure>
+      <img src="../public/projects/mac/dot-product-waves.png" width="1400" height="788" alt="Waveforms of the address counter and both SRAM outputs stepping through words 0 to 15">
+      <figcaption>The sequencer loading both SRAMs, then reading them back one word per cycle.</figcaption>
+    </figure>
+    <p>Custom flip-flops (94 ps setup, 68&ndash;85 ps clock-to-Q), with the adder carry path sized by logical effort down to 7&tau; per bit. The multiply-add stage limits the clock to <strong>1.1 ns</strong>, and every path meets hold with at least 70 ps of margin.</p>
+  </section>
+
+  <p class="back"><a href="../#sram">&larr; Back to the site</a></p>
+</main>
+</body>
+</html>

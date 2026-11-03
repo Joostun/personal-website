@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RISC-V Pipeline</title>
+<meta name="description" content="A 6-stage pipelined RV32IM processor in SystemVerilog with AXI4-Lite memory, profiled on Dhrystone.">
+<link rel="stylesheet" href="writeup.css">
+<style>
+  .diagram { width: 100%; height: auto; display: block; }
+  .diagram .box { fill: var(--paper); stroke: var(--ink); stroke-width: 3; }
+  .diagram .mem { fill: #eaf3f9; stroke: var(--ink); stroke-width: 2.5; }
+  .diagram .div { fill: #fbf0c8; stroke: var(--ink); stroke-width: 2.5; }
+  .diagram .big { font: 400 34px var(--heading); fill: var(--ink); }
+  .diagram .lbl { font: 600 14px var(--body); fill: var(--ink); }
+  .diagram .sm { font: 400 13px var(--body); fill: #555; }
+  .diagram .wire { stroke: var(--ink); stroke-width: 2.5; fill: none; }
+  .diagram .byp { stroke: #c8452f; stroke-width: 3; fill: none; }
+  .diagram .bypl { font: 700 14px var(--body); fill: #c8452f; paint-order: stroke; stroke: #fff; stroke-width: 6px; stroke-linejoin: round; }
+  .diagram .redir { stroke: #3b7fb0; stroke-width: 2.5; fill: none; stroke-dasharray: 7 5; }
+  .diagram .redirl { font: 700 13px var(--body); fill: #3b7fb0; paint-order: stroke; stroke: #fff; stroke-width: 6px; stroke-linejoin: round; }
+  .scroll { overflow-x: auto; }
+  .scroll svg { min-width: 640px; }
+</style>
+</head>
+<body>
+
+<nav class="bar">
+  <a href="../#riscv">&larr; Back</a>
+  <a href="../">Justin Yu</a>
+</nav>
+
+<main>
+  <header class="hero">
+    <span class="tag" style="background: var(--sky)">CPU</span>
+    <h1>Pipelined RISC-V CPU</h1>
+    <p class="lede">A 6-stage RV32IM processor in SystemVerilog with AXI4-Lite instruction and data memory, running on a ULX3S (Lattice ECP5) FPGA board.</p>
+    <div class="stats">
+      <div class="stat"><b>83 / 83</b><span>ISA and benchmark tests pass</span></div>
+      <div class="stat"><b>1.49</b><span>CPI on Dhrystone</span></div>
+      <div class="stat"><b>30.7 MHz</b><span>F<sub>max</sub> on the ECP5</span></div>
+      <div class="stat"><b>~9.4k</b><span>logic cells, 4 DSP multipliers</span></div>
+    </div>
+  </header>
+
+  <section class="panel">
+    <h2>The pipeline</h2>
+    <div class="scroll">
+    <svg class="diagram" viewBox="0 0 920 330" role="img" aria-label="Six pipeline stages F, G, D, X, M, W. Bypasses: M to X, W to X, and W to D. Branches redirect from X back to F. Instruction memory serves F and G over AXI4-Lite; data memory is requested in X and answers in M. Divides go through an 8-stage pipelined divider from X to M.">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker>
+        <marker id="arR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c8452f"/></marker>
+        <marker id="arB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3b7fb0"/></marker>
+      </defs>
+
+      <!-- bypasses -->
+      <path class="byp" d="M680 110 C680 75, 572 75, 572 108" marker-end="url(#arR)"/>
+      <text class="bypl" x="626" y="89" text-anchor="middle">MX</text>
+      <path class="byp" d="M825 110 C825 45, 532 45, 532 108" marker-end="url(#arR)"/>
+      <text class="bypl" x="678" y="66" text-anchor="middle">WX</text>
+      <path class="byp" d="M855 110 C855 10, 390 10, 390 108" marker-end="url(#arR)"/>
+      <text class="bypl" x="622" y="40" text-anchor="middle">WD</text>
+
+      <!-- stage boxes -->
+      <g>
+        <rect class="box" x="30" y="110" width="110" height="90" rx="4"/>
+        <text class="big" x="85" y="152" text-anchor="middle">F</text><text class="lbl" x="85" y="180" text-anchor="middle">Fetch</text>
+        <rect class="box" x="180" y="110" width="110" height="90" rx="4"/>
+        <text class="big" x="235" y="152" text-anchor="middle">G</text><text class="lbl" x="235" y="180" text-anchor="middle">Fetch wait</text>
+        <rect class="box" x="330" y="110" width="110" height="90" rx="4"/>
+        <text class="big" x="385" y="152" text-anchor="middle">D</text><text class="lbl" x="385" y="172" text-anchor="middle">Decode</text><text class="sm" x="385" y="190" text-anchor="middle">load-use stall</text>
+        <rect class="box" x="480" y="110" width="110" height="90" rx="4"/>
+        <text class="big" x="535" y="152" text-anchor="middle">X</text><text class="lbl" x="535" y="172" text-anchor="middle">Execute</text><text class="sm" x="535" y="190" text-anchor="middle">ALU, branches</text>
+        <rect class="box" x="630" y="110" width="110" height="90" rx="4"/>
+        <text class="big" x="685" y="152" text-anchor="middle">M</text><text class="lbl" x="685" y="180" text-anchor="middle">Memory</text>
+        <rect class="box" x="780" y="110" width="110" height="90" rx="4"/>
+        <text class="big" x="835" y="152" text-anchor="middle">W</text><text class="lbl" x="835" y="180" text-anchor="middle">Writeback</text>
+      </g>
+      <g class="wire">
+        <path d="M140 155 H176" marker-end="url(#ar)"/><path d="M290 155 H326" marker-end="url(#ar)"/>
+        <path d="M440 155 H476" marker-end="url(#ar)"/><path d="M590 155 H626" marker-end="url(#ar)"/>
+        <path d="M740 155 H776" marker-end="url(#ar)"/>
+      </g>
+
+      <!-- branch redirect -->
+      <path class="redir" d="M495 200 V228 H112 V204" marker-end="url(#arB)"/>
+      <text class="redirl" x="390" y="248" text-anchor="middle">taken branch: flush and redirect</text>
+
+      <!-- instruction memory -->
+      <rect class="mem" x="30" y="262" width="260" height="46" rx="4"/>
+      <text class="lbl" x="160" y="290" text-anchor="middle">Instruction memory (AXI4-Lite)</text>
+      <path class="wire" d="M60 200 V258" marker-end="url(#ar)"/>
+      <path class="wire" d="M262 262 V204" marker-end="url(#ar)"/>
+
+      <!-- divider and data memory -->
+      <rect class="div" x="548" y="244" width="124" height="34" rx="4"/>
+      <text class="lbl" x="610" y="266" text-anchor="middle">8-stage divider</text>
+      <path class="wire" d="M575 200 V240" marker-end="url(#ar)"/>
+      <path class="wire" d="M645 244 V204" marker-end="url(#ar)"/>
+      <rect class="mem" x="480" y="290" width="260" height="34" rx="4"/>
+      <text class="lbl" x="610" y="312" text-anchor="middle">Data memory (AXI4-Lite)</text>
+      <path class="wire" d="M520 200 V286" marker-end="url(#ar)"/>
+      <path class="wire" d="M715 290 V204" marker-end="url(#ar)"/>
+    </svg>
+    </div>
+    <ul class="dense">
+      <li><strong>Bypasses:</strong> MX and WX forward results into Execute, and WD forwards into Decode, so only a load followed by its use stalls.</li>
+      <li><strong>Memory:</strong> instruction fetch takes two stages (F requests, G waits). Loads and stores are requested in X and answered in M. During stalls the fetch handshake holds so no instruction is lost or fetched twice.</li>
+      <li><strong>Divides:</strong> a pipelined divider with a scoreboard, so only instructions that depend on a pending divide wait.</li>
+    </ul>
+  </section>
+
+
+  <p class="back"><a href="../#riscv">&larr; Back to the site</a></p>
+</main>
+</body>
+</html>

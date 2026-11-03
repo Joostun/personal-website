@@ -34,3 +34,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Source reports (keep local, not on the site)
+*.docx
+Project 1 Part*
+ESE5320_HW*.zip

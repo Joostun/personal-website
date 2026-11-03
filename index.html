@@ -768,6 +768,8 @@
   <p>A 6-stage pipelined RV32IM processor in SystemVerilog, running on a ULX3S FPGA board.</p>
   <p>Instruction and data memory sit on AXI4-Lite, with an extra stage between Fetch and Decode for the memory's one-cycle latency. During stalls, <code>RREADY</code> and <code>ARVALID</code> drop so in-flight fetches are never lost or duplicated.</p>
   <p>MX, WX and WD bypassing, load-use stalls in Decode, branches resolved in Execute, and an 8-cycle pipelined divider that rejoins the pipeline at Memory.</p>
+  <p>It passes all 83 ISA and benchmark tests and runs Dhrystone at a CPI of <strong>1.49</strong>, with most of the lost cycles from taken branches. It reaches 30.7&nbsp;MHz on the board's ECP5 FPGA.</p>
+  <p class="cta"><a href="projects/riscv.html">Pipeline diagram and cycle breakdown &rarr;</a></p>
 </dialog>
 
 <dialog class="win wide" tabindex="-1" id="win-os" aria-labelledby="t-os">
@@ -786,6 +788,7 @@
   <p>A full-custom, transistor-level multiply-accumulate unit in Cadence Virtuoso: two 16&times;4 6T SRAM arrays, a 4&times;4 array multiplier, a 12-bit accumulator, custom flip-flops and an FSM sequencer. Verified end-to-end on dot products, with DONE rising 18 cycles after START.</p>
   <p>Each SRAM module has precharge, a sense amplifier and a decoder. The bitcell and array layouts are DRC/LVS-clean, with Quantus parasitic extraction.</p>
   <p>Critical path sized with logical effort, with setup and hold, clock-to-q, and energy per dot product characterized. Minimum clock period is <strong>1.1 ns</strong>, about 909&nbsp;MHz, checked for hold violations.</p>
+  <p class="cta"><a href="projects/mac.html">Full write-up, with layouts and numbers &rarr;</a></p>
 </dialog>
 
 <dialog class="win wide" tabindex="-1" id="win-classes" aria-labelledby="t-classes">
@@ -829,6 +832,7 @@
   <p>Software and hardware acceleration on an Ultra96 board, which pairs ARM cores with programmable logic on a Zynq UltraScale+ chip.</p>
   <p>On the ARM cores: profiling a streaming pipeline (scale, filter, differentiate, compress) down to the compiler's assembly, content-defined chunking with a rolling hash, multicore parallelism with coarse-grain splitting and a two-core pipeline, and NEON SIMD vectorization.</p>
   <p>On the FPGA: matrix-multiply kernels in Vitis HLS using pipelining and array partitioning, with host code that keeps several buffers in flight so data transfers overlap with compute.</p>
+  <p class="cta"><a href="projects/fpga.html">Full write-up, with speedups and traces &rarr;</a></p>
 </dialog>
 
 

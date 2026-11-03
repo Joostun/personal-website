@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ultra96 Acceleration</title>
+<meta name="description" content="Speeding up workloads on an Ultra96 board, from multicore and NEON SIMD on the ARM cores to HLS matrix-multiply kernels on the FPGA.">
+<link rel="stylesheet" href="writeup.css">
+</head>
+<body>
+
+<nav class="bar">
+  <a href="../#fpga">&larr; Back</a>
+  <a href="../">Justin Yu</a>
+</nav>
+
+<main>
+  <header class="hero">
+    <span class="tag" style="background: var(--sun)">FPGA</span>
+    <h1>Acceleration on an Ultra96</h1>
+    <p class="lede">Speeding up real workloads on a Zynq UltraScale+ board, from multicore and NEON SIMD on its ARM cores to custom FPGA kernels in Vitis HLS. All numbers were measured on the board.</p>
+
+    <div class="stats">
+      <div class="stat"><b>20.6&times;</b><span>FPGA vs. CPU, two compute units</span></div>
+      <div class="stat"><b>417&times;</b><span>HLS kernel, first design to final</span></div>
+      <div class="stat"><b>9.7&times;</b><span>NEON speedup on a filter</span></div>
+      <div class="stat"><b>1.82&times;</b><span>two-core pipeline</span></div>
+    </div>
+  </header>
+
+  <section class="panel">
+    <h2>Multicore and SIMD</h2>
+    <p>A video compression pipeline (scale, filter, differentiate, compress) split into a balanced two-core pipeline:</p>
+    <div class="bars" role="img" aria-label="Frames per second: one core 53.2, two-core pipeline 96.9">
+      <div class="bar-row"><span>One core</span><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div><b>53.2 fps</b></div>
+      <div class="bar-row pick"><span>Two-core pipeline</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><b>96.9 fps</b></div>
+    </div>
+    <p>With NEON, the filters reached 8.0&times; and 9.7&times;, at or above the 8-lane ideal, once the coefficients were stored as bytes so the vector unit could skip widening every pixel.</p>
+  </section>
+
+  <section class="panel">
+    <h2>An HLS matrix multiply</h2>
+    <div class="grid2">
+      <div>
+        <div class="tbl"><table>
+          <tr><th>Design</th><th class="n">Latency</th><th class="n">DSP</th></tr>
+          <tr><td>Original</td><td class="n">24.66 ms</td><td class="n">5</td></tr>
+          <tr><td>Unrolled</td><td class="n">13.64 ms</td><td class="n">8</td></tr>
+          <tr class="pick"><td>Pipelined, II&nbsp;=&nbsp;1</td><td class="n">0.059 ms</td><td class="n">320</td></tr>
+        </table></div>
+        <p>Unrolling barely helped, because floating-point adds can't be reordered. Pipelining the outer loop and partitioning the buffers so 64 values could be read per cycle got it to II&nbsp;=&nbsp;1.</p>
+      </div>
+      <figure>
+        <img src="../public/projects/fpga/area-time.png" width="1100" height="643" alt="Area-time plot: DSP and BRAM count against expected latency on a log scale for the three designs">
+        <figcaption>Each step trades area for speed.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>The full system</h2>
+    <p>A larger streaming matrix multiply, tuned with dataflow inside the kernel, an out-of-order queue to overlap transfers, and a second compute unit. Device time against the CPU:</p>
+    <div class="bars" role="img" aria-label="Speedup over CPU: baseline kernel 5.5x, dataflow 9.1x, out-of-order queue 10.4x, two compute units 20.6x">
+      <div class="bar-row"><span>Baseline kernel</span><div class="bar-track"><div class="bar-fill" style="width:26.6%"></div></div><b>5.5&times;</b></div>
+      <div class="bar-row"><span>Dataflow</span><div class="bar-track"><div class="bar-fill" style="width:44.1%"></div></div><b>9.1&times;</b></div>
+      <div class="bar-row"><span>Out-of-order queue</span><div class="bar-track"><div class="bar-fill" style="width:50.5%"></div></div><b>10.4&times;</b></div>
+      <div class="bar-row pick"><span>2 compute units</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><b>20.6&times;</b></div>
+    </div>
+    <figure>
+      <img src="../public/projects/fpga/two-cu-trace.png" width="1600" height="392" alt="Vitis Analyzer timeline with kernel runs overlapping data transfers across two compute units">
+      <figcaption>Kernel runs overlapping data transfers. The final build uses 89% of the chip's DSPs at 3.0 W.</figcaption>
+    </figure>
+  </section>
+
+  <p class="back"><a href="../#fpga">&larr; Back to the site</a></p>
+</main>
+</body>
+</html>
